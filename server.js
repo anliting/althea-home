@@ -3,8 +3,7 @@ module.exports=althea=>{
 }
 function pagemodule(env){
     if(
-        env.request.headers.origin&&
-        env.request.headers.origin!=env.envVars.allowedOrigin
+        !env.althea.allowOrigin(env.envVars,env.request.headers.origin)
     )
         return 403
     if(env.request.method==='GET')
