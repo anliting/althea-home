@@ -1,7 +1,7 @@
 Promise.all([
     module.repository.althea.site,
-    module.import('FileManager/prototype.setupFilelist.js'),
-    module.import('FileManager/setupDiv.js'),
+    module.shareImport('FileManager/prototype.setupFilelist.js'),
+    module.shareImport('FileManager/setupDiv.js'),
     module.repository.npm.path,
     module.repository.althea.EventEmmiter,
     module.extractByPath('https://cdn.rawgit.com/anliting/Decision/d1402e78190047e1ad49c35b0b2da5af478050d2/Decision.js','Decision'),

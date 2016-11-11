@@ -1,5 +1,5 @@
 Promise.all([
-    module.import('Home/FileManager.js'),
+    module.shareImport('Home/FileManager.js'),
     module.repository.npm.path,
 ]).then(modules=>{
     let

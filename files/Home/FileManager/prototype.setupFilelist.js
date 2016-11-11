@@ -1,5 +1,5 @@
 Promise.all([
-    module.import('../File.js'),
+    module.shareImport('../File.js'),
 ]).then(modules=>{
     let
         File=           modules[0]

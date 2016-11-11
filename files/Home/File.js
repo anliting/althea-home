@@ -2,7 +2,7 @@ Promise.all([
     module.repository.althea.site,
     module.repository.npm.path,
     module.repository.althea.EventEmmiter,
-    module.import('File/prototype.beRenamed.js'),
+    module.shareImport('File/prototype.beRenamed.js'),
 ]).then(modules=>{
     let
         site=           modules[0],

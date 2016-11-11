@@ -1,6 +1,6 @@
 Promise.all([
-    module.import('setupDiv/genkeydown.js'),
-    module.import('../Fileuploading.js'),
+    module.shareImport('setupDiv/genkeydown.js'),
+    module.shareImport('../Fileuploading.js'),
 ]).then(modules=>{
     let
         genkeydown=     modules[0],
