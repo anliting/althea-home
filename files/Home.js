@@ -1,11 +1,11 @@
 var modules=Promise.all([
-    module.shareImport('Home/FileManager.js'),
     module.repository.npm.path,
+    module.shareImport('Home/FileManager.js'),
 ])
 ;(async()=>{
     let[
+        path,
         FileManager,
-        path
     ]=await modules
     function Home(site){
         this._site=site

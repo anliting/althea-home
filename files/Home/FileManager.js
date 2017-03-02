@@ -16,7 +16,7 @@ Promise.all([
     /*
     Properties:
         this.directory is the current working directory, which is a relative
-            path that relatives to /home/.
+            path that relatives to /home.
         this.parent the parent node of this.div.
     Events:
         directoryChange is fired when this.directory is changed.
@@ -67,9 +67,8 @@ Promise.all([
     FileManager.prototype.setupDiv=setupDiv
     FileManager.prototype.setupFilelist=modules[1]
     FileManager.prototype.purgeFilelist=function(){
-        var home=this
-        home.focus=undefined
-        home.div.innerHTML=''
+        this.focus=undefined
+        this.div.innerHTML=''
     }
     FileManager.prototype.focusOn=function(id){
         if(this.focus!=undefined)
