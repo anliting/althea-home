@@ -1,9 +1,8 @@
 module.styleByPath('plugins/althea-home/main.css').then(main=>
     document.head.appendChild(main)
 )
-module.importByPath('lib/general.js',{mode:1}).then(general=>{
+module.importByPath('lib/general.js',{mode:1}).then(async general=>{
     general(module)
-    module.shareImport('Home.js').then(Home=>
-        new Home(module.repository.althea.site)
-    )
+    let Home=await module.shareImport('Home.js')
+    new Home(module.repository.althea.site)
 })

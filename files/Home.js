@@ -1,10 +1,12 @@
-Promise.all([
+var modules=Promise.all([
     module.shareImport('Home/FileManager.js'),
     module.repository.npm.path,
-]).then(modules=>{
-    let
-        FileManager=    modules[0],
-        path=           modules[1]
+])
+;(async()=>{
+    let[
+        FileManager,
+        path
+    ]=await modules
     function Home(site){
         this._site=site
         let
@@ -35,12 +37,15 @@ Promise.all([
             else
                 fm.directory+='/'+e.name
         })
-        let directory=path.normalize(decodeURI(location.pathname).match(/\/home\/?(.*)/)[1])
+        let directory=path.normalize(
+            decodeURI(location.pathname).match(/\/home\/?(.*)/)[1]
+        )
         history.replaceState(
             {directory},
             '',
             path.normalize(`/home/${directory}`)
         )
+        document.title=location.pathname
         fm.directory=directory
         fm.on('directoryChange',e=>{
             history.pushState(
@@ -64,7 +69,7 @@ Promise.all([
             fm.div.focus()
         },0)
         div.onkeydown=e=>{
-            if(e.keyCode==84){
+            if(e.key=='t'){
                 e.preventDefault()
                 if(tcmode==false){
                     tcmode=true
@@ -91,4 +96,4 @@ Promise.all([
         }
     }
     return Home
-})
+})()
