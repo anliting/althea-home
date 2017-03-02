@@ -35,18 +35,18 @@ Promise.all([
             else
                 fm.directory+='/'+e.name
         })
-        let directory=decodeURI(location.pathname).match(/\/home\/(.*)/)[1]
+        let directory=path.normalize(decodeURI(location.pathname).match(/\/home\/?(.*)/)[1])
         history.replaceState(
             {directory},
             '',
-            path.normalize(`/home/${directory}/`)
+            path.normalize(`/home/${directory}`)
         )
         fm.directory=directory
         fm.on('directoryChange',e=>{
             history.pushState(
                 {directory:fm.directory},
                 '',
-                path.normalize('/home/'+fm.directory+'/')
+                path.normalize(`/home/${fm.directory}`)
             )
             document.title=location.pathname
         })
@@ -57,7 +57,7 @@ Promise.all([
         }
         // right
         rightFm.directory=
-            decodeURI(location.pathname).match(/\/home\/(.*)/)[1]
+            decodeURI(location.pathname).match(/\/home\/?(.*)/)[1]
         rightFm.parent=rightDiv
         // end right
         setTimeout(()=>{
