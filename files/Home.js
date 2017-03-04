@@ -1,23 +1,22 @@
-let modules=Promise.all([
-    module.repository.npm.path,
-    module.shareImport('Home/FileManager.js'),
-])
-;(async()=>{
+(async()=>{
     let[
         path,
         FileManager,
-    ]=await modules
+    ]=await Promise.all([
+        module.repository.npm.path,
+        module.shareImport('Home/FileManager.js'),
+    ])
     function Home(site,directory){
         this._site=site
+        this.fm=new FileManager(this)
+        this.rightFm=new FileManager(this)
         let
             tcmode=false,
             p,
             div=document.createElement('div'),
             rowDiv=document.createElement('div'),
             leftDiv=document.createElement('div'),
-            rightDiv=document.createElement('div'),
-            rightFm=new FileManager(this)
-        this.fm=new FileManager(this)
+            rightDiv=document.createElement('div')
         div.style.display='table'
         div.style.tableLayout='fixed'
         div.style.width='100%'
@@ -40,8 +39,8 @@ let modules=Promise.all([
         this.fm.directory=directory
         this.fm.parent=leftDiv
         // right
-        rightFm.directory=this.fm.directory
-        rightFm.parent=rightDiv
+        this.rightFm.directory=this.fm.directory
+        this.rightFm.parent=rightDiv
         // end right
         div.onkeydown=e=>{
             if(e.key=='t'){
