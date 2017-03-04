@@ -1,4 +1,4 @@
-var modules=Promise.all([
+let modules=Promise.all([
     module.repository.npm.path,
     module.shareImport('Home/FileManager.js'),
 ])
@@ -7,7 +7,7 @@ var modules=Promise.all([
         path,
         FileManager,
     ]=await modules
-    function Home(site){
+    function Home(site,directory){
         this._site=site
         let
             tcmode=false,
@@ -16,8 +16,8 @@ var modules=Promise.all([
             rowDiv=document.createElement('div'),
             leftDiv=document.createElement('div'),
             rightDiv=document.createElement('div'),
-            fm=new FileManager(this),
             rightFm=new FileManager(this)
+        this.fm=new FileManager(this)
         div.style.display='table'
         div.style.tableLayout='fixed'
         div.style.width='100%'
@@ -29,52 +29,27 @@ var modules=Promise.all([
         rowDiv.appendChild(leftDiv)
         rowDiv.appendChild(rightDiv)
         div.appendChild(rowDiv)
-        document.body.appendChild(div)
+        this.node=div
         // left
-        fm.on('fileExecuted',e=>{
+        this.fm.on('fileExecuted',e=>{
             if(!e.isDirectory)
                 location=e.href
             else
-                fm.directory+='/'+e.name
+                this.fm.directory+='/'+e.name
         })
-        let directory=path.normalize(
-            decodeURI(location.pathname).match(/\/home\/?(.*)/)[1]
-        )
-        history.replaceState(
-            {directory},
-            '',
-            path.normalize(`/home/${directory}`)
-        )
-        document.title=location.pathname
-        fm.directory=directory
-        fm.on('directoryChange',e=>{
-            history.pushState(
-                {directory:fm.directory},
-                '',
-                path.normalize(`/home/${fm.directory}`)
-            )
-            document.title=location.pathname
-        })
-        fm.parent=leftDiv
-        onpopstate=e=>{
-            if(location.pathname.substring(0,6)=='/home/')
-                fm.directory=e.state.directory
-        }
+        this.fm.directory=directory
+        this.fm.parent=leftDiv
         // right
-        rightFm.directory=
-            decodeURI(location.pathname).match(/\/home\/?(.*)/)[1]
+        rightFm.directory=this.fm.directory
         rightFm.parent=rightDiv
         // end right
-        setTimeout(()=>{
-            fm.div.focus()
-        },0)
         div.onkeydown=e=>{
             if(e.key=='t'){
                 e.preventDefault()
                 if(tcmode==false){
                     tcmode=true
                     rightDiv.style.display='table-cell'
-                    fm.getDiskSpace().then(disk=>{
+                    this.fm.getDiskSpace().then(disk=>{
                         p=createP(disk)
                         document.body.insertBefore(p,div)
                     })
