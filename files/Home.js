@@ -18,37 +18,37 @@
         return this.node
         function createNode(home){
             let n=document.createElement('div')
-            createDiv.call(home)
+            createDiv(home)
             n.appendChild(home.div)
             return n
         }
-        function createDiv(){
-            this.rowDiv=document.createElement('div')
-            this.div=document.createElement('div')
-            this.div.style.display='table'
-            this.div.style.tableLayout='fixed'
-            this.div.style.width='100%'
-            this.rowDiv.style.display='table-row'
-            this.leftDiv=document.createElement('div')
-            this.leftDiv.style.display='table-cell'
-            this.leftDiv.style.width='50%'
-            this.leftDiv.appendChild(this.fm.div)
-            this.rightDiv=document.createElement('div')
-            this.rightDiv.style.display='none'
-            this.rightDiv.style.width='50%'
-            this.rightDiv.appendChild(this.rightFm.div)
-            this.rowDiv.appendChild(this.leftDiv)
-            this.rowDiv.appendChild(this.rightDiv)
-            this.div.appendChild(this.rowDiv)
-            this.div.onkeydown=e=>{
+        function createDiv(home){
+            home.rowDiv=document.createElement('div')
+            home.div=document.createElement('div')
+            home.div.style.display='table'
+            home.div.style.tableLayout='fixed'
+            home.div.style.width='100%'
+            home.rowDiv.style.display='table-row'
+            home.leftDiv=document.createElement('div')
+            home.leftDiv.style.display='table-cell'
+            home.leftDiv.style.width='50%'
+            home.leftDiv.appendChild(home.fm.div)
+            home.rightDiv=document.createElement('div')
+            home.rightDiv.style.display='none'
+            home.rightDiv.style.width='50%'
+            home.rightDiv.appendChild(home.rightFm.div)
+            home.rowDiv.appendChild(home.leftDiv)
+            home.rowDiv.appendChild(home.rightDiv)
+            home.div.appendChild(home.rowDiv)
+            home.div.onkeydown=e=>{
                 if(e.key!='t')
                     return
                 e.preventDefault()
-                if(this.tc==undefined){
-                    this.tc=createTc(this)
+                if(home.tc==undefined){
+                    home.tc=createTc(home)
                 }else{
-                    this.tc.end()
-                    delete this.tc
+                    home.tc.end()
+                    delete home.tc
                 }
             }
         }
