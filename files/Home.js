@@ -10,64 +10,75 @@
         this._site=site
         this.fm=new FileManager(this)
         this.rightFm=new FileManager(this)
-        let
-            tcmode=false,
-            p,
-            div=document.createElement('div'),
-            rowDiv=document.createElement('div'),
-            leftDiv=document.createElement('div'),
-            rightDiv=document.createElement('div')
-        div.style.display='table'
-        div.style.tableLayout='fixed'
-        div.style.width='100%'
-        rowDiv.style.display='table-row'
-        leftDiv.style.display='table-cell'
-        leftDiv.style.width='50%'
-        rightDiv.style.display='none'
-        rightDiv.style.width='50%'
-        rowDiv.appendChild(leftDiv)
-        rowDiv.appendChild(rightDiv)
-        div.appendChild(rowDiv)
-        this.node=div
-        // left
-        this.fm.on('fileExecuted',e=>{
-            if(!e.isDirectory)
-                location=e.href
-            else
-                this.fm.directory+='/'+e.name
-        })
         this.fm.directory=directory
-        this.fm.parent=leftDiv
-        // right
-        this.rightFm.directory=this.fm.directory
-        this.rightFm.parent=rightDiv
-        // end right
-        div.onkeydown=e=>{
-            if(e.key=='t'){
+        this.rightFm.directory=directory
+    }
+    Object.defineProperty(Home.prototype,'node',{configurable:true,get(){
+        Object.defineProperty(this,'node',{value:createNode(this)})
+        return this.node
+        function createNode(home){
+            let n=document.createElement('div')
+            createDiv.call(home)
+            n.appendChild(home.div)
+            return n
+        }
+        function createDiv(){
+            this.rowDiv=document.createElement('div')
+            this.div=document.createElement('div')
+            this.div.style.display='table'
+            this.div.style.tableLayout='fixed'
+            this.div.style.width='100%'
+            this.rowDiv.style.display='table-row'
+            this.leftDiv=document.createElement('div')
+            this.leftDiv.style.display='table-cell'
+            this.leftDiv.style.width='50%'
+            this.leftDiv.appendChild(this.fm.div)
+            this.rightDiv=document.createElement('div')
+            this.rightDiv.style.display='none'
+            this.rightDiv.style.width='50%'
+            this.rightDiv.appendChild(this.rightFm.div)
+            this.rowDiv.appendChild(this.leftDiv)
+            this.rowDiv.appendChild(this.rightDiv)
+            this.div.appendChild(this.rowDiv)
+            this.div.onkeydown=e=>{
+                if(e.key!='t')
+                    return
                 e.preventDefault()
-                if(tcmode==false){
-                    tcmode=true
-                    rightDiv.style.display='table-cell'
-                    this.fm.getDiskSpace().then(disk=>{
-                        p=createP(disk)
-                        document.body.insertBefore(p,div)
-                    })
-                    function createP(disk){
-                        let p=document.createElement('p')
-                        p.textContent=
-                            Math.floor(disk.free/1e9)+
-                            'G/'+
-                            Math.floor(disk.total/1e9)+
-                            'G'
-                        return p
-                    }
+                if(this.tc==undefined){
+                    this.tc=createTc(this)
                 }else{
-                    tcmode=false
-                    rightDiv.style.display='none'
-                    p.parentNode.removeChild(p)
+                    this.tc.end()
+                    delete this.tc
                 }
             }
         }
-    }
+    }})
     return Home
 })()
+function createTc(home){
+    let ended=false,p
+    home.rightDiv.style.display='table-cell'
+    home.fm.getDiskSpace().then(disk=>{
+        if(ended)
+            return
+        p=createP(disk)
+        home.node.insertBefore(p,home.div)
+    })
+    return{
+        end(){
+            home.rightDiv.style.display='none'
+            if(p)
+                p.parentNode.removeChild(p)
+            ended=true
+        }
+    }
+    function createP(disk){
+        let p=document.createElement('p')
+        p.textContent=
+            Math.floor(disk.free/1e9)+
+            'G/'+
+            Math.floor(disk.total/1e9)+
+            'G'
+        return p
+    }
+}

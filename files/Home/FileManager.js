@@ -22,19 +22,8 @@ Promise.all([
         directoryChange is fired when this.directory is changed.
     */
         constructor(home){
-            var
-                directorySet=new Decision,
-                parentSet=new Decision,
-                directoryParentSet=new Decision
             super()
             this.home=home
-            this.on('directoryChange',()=>directorySet.yes)
-            this.on('parentChange',()=>parentSet.yes)
-            directorySet.and(parentSet).then(()=>
-                setTimeout(()=>
-                    this.parent.appendChild(this.div)
-                ,0)
-            )
             this.on('directoryChange',()=>{
                 if(!this.div){
                     this.fileuploadings=[]

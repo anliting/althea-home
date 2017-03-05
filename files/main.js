@@ -28,6 +28,12 @@ module.importByPath('lib/general.js',{mode:1}).then(async general=>{
         )
         document.title=location.pathname
     })
+    home.fm.on('fileExecuted',e=>{
+        if(!e.isDirectory)
+            location=e.href
+        else
+            home.fm.directory+='/'+e.name
+    })
     onpopstate=e=>{
         if(location.pathname.substring(0,5)=='/home')
             home.fm.directory=e.state.directory
