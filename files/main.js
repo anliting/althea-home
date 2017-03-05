@@ -1,45 +1,44 @@
-module.styleByPath('plugins/althea-home/main.css').then(main=>
-    document.head.appendChild(main)
-)
+let style=module.styleByPath('plugins/althea-home/main.css')
 module.importByPath('lib/general.js',{mode:1}).then(async general=>{
     general(module)
-    let[
-        path,
-        Home
-    ]=await Promise.all([
-        module.repository.npm.path,
-        module.shareImport('Home.js'),
-    ])
-    let directory=path.normalize(
-        decodeURI(location.pathname).match(/\/home\/?(.*)/)[1]
-    )
-    let home=new Home(module.repository.althea.site,directory)
-    history.replaceState(
-        {directory},
-        '',
-        path.normalize(`/home/${directory}`)
-    )
-    document.title=location.pathname
+    let
+        [
+            path,
+            Home
+        ]=await Promise.all([
+            module.repository.npm.path,
+            module.shareImport('Home.js'),
+        ]),
+        directory=path.normalize(
+            decodeURI(location.pathname).match(/\/home\/?(.*)/)[1]
+        ),
+        home=new Home(module.repository.althea.site,directory),
+        listenToDirectoryChange=true
+    changeHistory('replaceState',directory)
     home.fm.on('directoryChange',e=>{
-        history.pushState(
-            {directory:home.fm.directory},
-            '',
-            path.normalize(`/home/${home.fm.directory}`)
-        )
-        document.title=location.pathname
+        if(listenToDirectoryChange)
+            changeHistory('pushState',home.fm.directory)
     })
     home.fm.on('fileExecuted',e=>{
         if(!e.isDirectory)
             location=e.href
-        else
-            home.fm.directory+='/'+e.name
+        home.fm.directory+='/'+e.name
     })
     onpopstate=e=>{
-        if(location.pathname.substring(0,5)=='/home')
-            home.fm.directory=e.state.directory
+        listenToDirectoryChange=false
+        home.fm.directory=e.state.directory
+        listenToDirectoryChange=true
     }
+    style=await style
+    document.head.appendChild(style)
     document.body.appendChild(home.node)
-    setTimeout(()=>
-        home.fm.div.focus()
-    )
+    home.fm.div.focus()
+    function changeHistory(method,directory){
+        history[method](
+            {directory},
+            '',
+            path.normalize(`/home/${directory}`)
+        )
+        document.title=directory
+    }
 })
