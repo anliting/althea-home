@@ -1,12 +1,13 @@
-Promise.all([
-    module.shareImport('setupDiv/genkeydown.js'),
-    module.shareImport('../Fileuploading.js'),
-]).then(modules=>{
-    let
-        genkeydown=     modules[0],
-        Fileuploading=  modules[1]
+(async()=>{
+    let[
+        genkeydown,
+        Fileuploading,
+    ]=await Promise.all([
+        module.shareImport('setupDiv/genkeydown.js'),
+        module.shareImport('../Fileuploading.js'),
+    ])
     function setupDiv(){
-        var
+        let
             home=this,
             div
         home.setupFilelistStatus=0
@@ -46,7 +47,7 @@ Promise.all([
         })
         home.setupFilelist()
         function sendfile(file,update){
-            var fileuploading=new Fileuploading(
+            let fileuploading=new Fileuploading(
                 home.directory,
                 file.name,
                 file
@@ -63,4 +64,4 @@ Promise.all([
         }
     }
     return setupDiv
-})
+})()

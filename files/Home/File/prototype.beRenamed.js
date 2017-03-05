@@ -1,6 +1,6 @@
 (function(type){
     return new Promise((rs,rj)=>{
-        var
+        let
             file=this,
             input
         input=createInput()
@@ -16,7 +16,7 @@
                 input.value.length
             )
         function createInput(){
-            var input=document.createElement('input')
+            let input=document.createElement('input')
             input.onkeydown=e=>{
                 e.stopPropagation()
                 if(
@@ -32,14 +32,13 @@
             input.value=file.name
             return input
         }
-        function rename(newname){
-            return file.home.home._site.then(site=>
-                site.send({
-                    function:'renameFile',
-                    path:`${file.home.directory}/${file.name}`,
-                    newpath:`${file.home.directory}/${newname}`,
-                })
-            )
+        async function rename(newname){
+            let site=await file.home.home._site
+            return site.send({
+                function:'renameFile',
+                path:`${file.home.directory}/${file.name}`,
+                newpath:`${file.home.directory}/${newname}`,
+            })
         }
     })
 })

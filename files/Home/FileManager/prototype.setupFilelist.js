@@ -1,8 +1,5 @@
-Promise.all([
-    module.shareImport('../File.js'),
-]).then(modules=>{
-    let
-        File=           modules[0]
+(async()=>{
+    let File=await module.shareImport('../File.js')
     return function(){
         let
             home=this
@@ -34,13 +31,14 @@ Promise.all([
             throw err
         })
         function createUl(){
-            var ul,files
-            ul=document.createElement('ul')
+            let
+                ul=document.createElement('ul'),
+                files
             home.filelist=home.files.concat(home.fileuploadings)
             home.filelist.sort((a,b)=>{
                 return a.name.localeCompare(b.name)
             })
-            home.filelist.forEach((file,index)=>{
+            home.filelist.map((file,index)=>{
                 file.setupLi()
                 file.li.onclick=()=>{
                     home.focusOn(index)
@@ -52,4 +50,4 @@ Promise.all([
             return ul
         }
     }
-})
+})()

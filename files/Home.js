@@ -74,11 +74,7 @@ function createTc(home){
     }
     function createP(disk){
         let p=document.createElement('p')
-        p.textContent=
-            Math.floor(disk.free/1e9)+
-            'G/'+
-            Math.floor(disk.total/1e9)+
-            'G'
+        p.textContent=`${~~(disk.free/1e9)}G/${~~(disk.total/1e9)}G`
         return p
     }
 }

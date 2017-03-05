@@ -12,7 +12,7 @@ Promise.all([
         path=           modules[3],
         EventEmmiter=   modules[4],
         Decision=       modules[5]
-    var FileManager=class FileManager extends EventEmmiter{
+    let FileManager=class FileManager extends EventEmmiter{
     /*
     Properties:
         this.directory is the current working directory, which is a relative
@@ -43,7 +43,7 @@ Promise.all([
             return this._parent
         }
         set directory(pth){
-            var targetPath=path.normalize(pth)
+            let targetPath=path.normalize(pth)
             if(targetPath.substring(0,2)=='..')
                 return
             this._directory=targetPath

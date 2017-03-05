@@ -12,7 +12,7 @@ function Fileuploading(directory,name,rawfile){
     }
 }
 Fileuploading.prototype.showLoaded=function(){
-    var
+    let
         fileuploading=this,
         proportion,
         loadedToBeShown,
@@ -45,10 +45,10 @@ Fileuploading.prototype.showLoaded=function(){
         )+')'
 }
 Fileuploading.prototype.setupLi=function(){
-    var fileuploading=this
+    let fileuploading=this
     this.li=createLi()
     function createLi(){
-        var li=document.createElement('li')
+        let li=document.createElement('li')
         li.style.position='relative'
         li.style.border='1px solid black'
         li.appendChild(createDiv())

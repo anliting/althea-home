@@ -61,7 +61,7 @@
         li.firstChild.select()
     }
     function createLi(){
-        var li=document.createElement('li')
+        let li=document.createElement('li')
         li.appendChild(createInput())
         return li
     }

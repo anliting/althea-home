@@ -24,10 +24,10 @@ Promise.all([
         this.home.emit('fileExecuted',this)
     }
     File.prototype.setupLi=function(){
-        var file=this
+        let file=this
         this.li=createLi()
         function createLi(){
-            var li=document.createElement('li')
+            let li=document.createElement('li')
             li.onclick=()=>{
                 file.home.focusOn(file.index)
             }
@@ -42,7 +42,7 @@ Promise.all([
             return li
         }
         function createA(){
-            var a=document.createElement('a')
+            let a=document.createElement('a')
             a.href=file.href
             a.onclick=e=>{
                 e.stopPropagation()
@@ -57,9 +57,9 @@ Promise.all([
             return a
         }
         function createAAudio(){
-            var a,state
-            state=0
-            a=document.createElement('a')
+            let
+                state=0,
+                a=document.createElement('a')
             a.href='javascript:'
             a.onclick=e=>{
                 e.stopPropagation()
@@ -88,7 +88,7 @@ Promise.all([
             }
         }
         function getExtension(s){
-            var p=s.lastIndexOf('.')+1
+            let p=s.lastIndexOf('.')+1
             return p<0?null:s.substring(p)
         }
     }
