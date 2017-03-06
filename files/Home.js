@@ -1,72 +1,52 @@
-(async()=>{
-    let[
-        path,
-        FileManager,
-    ]=await Promise.all([
-        module.repository.npm.path,
-        module.shareImport('Home/FileManager.js'),
-    ])
-    function Home(site,directory){
-        this._site=site
-        this.fm=new FileManager(this)
-        this.rightFm=new FileManager(this)
-        this.fm.directory=directory
-        this.rightFm.directory=directory
+function Ui(home){
+    this._home=home
+    this._node=document.createElement('div')
+    createDiv(this)
+    this._node.appendChild(this.div)
+    return this._node
+}
+function createDiv(ui){
+    ui.div=document.createElement('div')
+    ui.div.style.display='table'
+    ui.div.style.tableLayout='fixed'
+    ui.div.style.width='100%'
+    ui.rowDiv=document.createElement('div')
+    ui.rowDiv.style.display='table-row'
+    ui.leftDiv=document.createElement('div')
+    ui.leftDiv.style.display='table-cell'
+    ui.leftDiv.style.width='50%'
+    ui.leftDiv.appendChild(ui._home.fm.div)
+    ui.rightDiv=document.createElement('div')
+    ui.rightDiv.style.display='none'
+    ui.rightDiv.style.width='50%'
+    ui.rightDiv.appendChild(ui._home.rightFm.div)
+    ui.rowDiv.appendChild(ui.leftDiv)
+    ui.rowDiv.appendChild(ui.rightDiv)
+    ui.div.appendChild(ui.rowDiv)
+    ui.div.onkeydown=e=>{
+        if(e.key!='t')
+            return
+        e.preventDefault()
+        if(ui.tc==undefined){
+            ui.tc=createTc(ui)
+        }else{
+            ui.tc.end()
+            delete ui.tc
+        }
     }
-    Object.defineProperty(Home.prototype,'node',{configurable:true,get(){
-        Object.defineProperty(this,'node',{value:createNode(this)})
-        return this.node
-        function createNode(home){
-            let n=document.createElement('div')
-            createDiv(home)
-            n.appendChild(home.div)
-            return n
-        }
-        function createDiv(home){
-            home.rowDiv=document.createElement('div')
-            home.div=document.createElement('div')
-            home.div.style.display='table'
-            home.div.style.tableLayout='fixed'
-            home.div.style.width='100%'
-            home.rowDiv.style.display='table-row'
-            home.leftDiv=document.createElement('div')
-            home.leftDiv.style.display='table-cell'
-            home.leftDiv.style.width='50%'
-            home.leftDiv.appendChild(home.fm.div)
-            home.rightDiv=document.createElement('div')
-            home.rightDiv.style.display='none'
-            home.rightDiv.style.width='50%'
-            home.rightDiv.appendChild(home.rightFm.div)
-            home.rowDiv.appendChild(home.leftDiv)
-            home.rowDiv.appendChild(home.rightDiv)
-            home.div.appendChild(home.rowDiv)
-            home.div.onkeydown=e=>{
-                if(e.key!='t')
-                    return
-                e.preventDefault()
-                if(home.tc==undefined){
-                    home.tc=createTc(home)
-                }else{
-                    home.tc.end()
-                    delete home.tc
-                }
-            }
-        }
-    }})
-    return Home
-})()
-function createTc(home){
+}
+function createTc(ui){
     let ended=false,p
-    home.rightDiv.style.display='table-cell'
-    home.fm.getDiskSpace().then(disk=>{
+    ui.rightDiv.style.display='table-cell'
+    ui._home.fm.getDiskSpace().then(disk=>{
         if(ended)
             return
         p=createP(disk)
-        home.node.insertBefore(p,home.div)
+        ui._node.insertBefore(p,ui.div)
     })
     return{
         end(){
-            home.rightDiv.style.display='none'
+            ui.rightDiv.style.display='none'
             if(p)
                 p.parentNode.removeChild(p)
             ended=true
@@ -78,3 +58,22 @@ function createTc(home){
         return p
     }
 }
+;(async()=>{
+    let[
+        FileManager,
+    ]=await Promise.all([
+        module.shareImport('Home/FileManager.js'),
+    ])
+    function Home(site,directory){
+        this._site=site
+        this.fm=new FileManager(this)
+        this.fm.directory=directory
+        this.rightFm=new FileManager(this)
+        this.rightFm.directory=directory
+    }
+    Object.defineProperty(Home.prototype,'ui',{configurable:true,get(){
+        Object.defineProperty(this,'ui',{value:new Ui(this)})
+        return this.ui
+    }})
+    return Home
+})()
