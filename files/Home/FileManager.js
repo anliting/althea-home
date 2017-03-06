@@ -1,15 +1,15 @@
-Promise.all([
-    module.repository.althea.site,
-    module.shareImport('FileManager/prototype.setupFilelist.js'),
-    module.shareImport('FileManager/setupDiv.js'),
-    module.repository.npm.path,
-    module.repository.althea.EventEmmiter,
-]).then(modules=>{
-    let
-        site=           modules[0],
-        setupDiv=       modules[2],
-        path=           modules[3],
-        EventEmmiter=   modules[4]
+;(async()=>{
+    let[
+        setupDiv,
+        path,
+        EventEmmiter,
+        setupFilelist,
+    ]=await Promise.all([
+        module.shareImport('FileManager/setupDiv.js'),
+        module.repository.npm.path,
+        module.repository.althea.EventEmmiter,
+        module.shareImport('FileManager/prototype.setupFilelist.js'),
+    ])
     let FileManager=class FileManager extends EventEmmiter{
     /*
     Properties:
@@ -21,6 +21,7 @@ Promise.all([
     */
         constructor(home){
             super()
+            this.pendingRequest=[]
             this.home=home
             this.on('directoryChange',()=>{
                 if(!this.div){
@@ -52,7 +53,7 @@ Promise.all([
         }
     }
     FileManager.prototype.setupDiv=setupDiv
-    FileManager.prototype.setupFilelist=modules[1]
+    FileManager.prototype.setupFilelist=setupFilelist
     FileManager.prototype.purgeFilelist=function(){
         this.focus=undefined
         this.div.innerHTML=''
@@ -63,16 +64,30 @@ Promise.all([
         this.focus=id
         this.filelist[this.focus].li.style.backgroundColor='lightgray'
     }
+    Object.defineProperty(FileManager.prototype,'send',{
+        configurable:true,
+        set(v){
+            Object.defineProperty(this,'send',{value:v})
+            this.pendingRequest.map(rq=>
+                this.send(rq.doc).then(rq.rs)
+            )
+            this.pendingRequest=[]
+        },get(){
+            return d=>new Promise(rs=>
+                this.pendingRequest.push({doc:d,rs})
+            )
+        }
+    })
     FileManager.prototype.getDiskSpace=function(){
-        return site.send({
+        return this.send({
             function:'getDiskSpace',
         })
     }
     FileManager.prototype.getDirectoryInformation=function(path){
-        return site.send({
+        return this.send({
             function:'getDirectoryInformation',
             path
         })
     }
     return FileManager
-})
+})()
