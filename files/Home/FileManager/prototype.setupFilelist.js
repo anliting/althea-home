@@ -1,5 +1,5 @@
 (async()=>{
-    let File=await module.shareImport('../File.js')
+    let File=await module.shareImport('File.js')
     return function(){
         let
             home=this

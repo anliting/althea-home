@@ -4,7 +4,7 @@
         Fileuploading,
     ]=await Promise.all([
         module.shareImport('setupDiv/genkeydown.js'),
-        module.shareImport('../Fileuploading.js'),
+        module.shareImport('Fileuploading.js'),
     ])
     function setupDiv(){
         let

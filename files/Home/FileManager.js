@@ -4,14 +4,12 @@ Promise.all([
     module.shareImport('FileManager/setupDiv.js'),
     module.repository.npm.path,
     module.repository.althea.EventEmmiter,
-    module.extractByPath('https://cdn.rawgit.com/anliting/Decision/d1402e78190047e1ad49c35b0b2da5af478050d2/Decision.js','Decision'),
 ]).then(modules=>{
     let
         site=           modules[0],
         setupDiv=       modules[2],
         path=           modules[3],
-        EventEmmiter=   modules[4],
-        Decision=       modules[5]
+        EventEmmiter=   modules[4]
     let FileManager=class FileManager extends EventEmmiter{
     /*
     Properties:
