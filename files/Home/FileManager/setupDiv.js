@@ -42,6 +42,7 @@
                     home.div.style.backgroundColor=''
                     div=undefined
                 })
+                let fileInput=createFileInput()
                 home.div.appendChild(div)
             }
         })
@@ -62,6 +63,11 @@
             })
             update()
         }
+    }
+    function createFileInput(){
+        let n=document.createElement('input')
+        n.type='file'
+        return n
     }
     return setupDiv
 })()

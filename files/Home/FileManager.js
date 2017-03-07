@@ -34,13 +34,6 @@
                 }
             })
         }
-        set parent(parent){
-            this._parent=parent
-            this.emit('parentChange')
-        }
-        get parent(){
-            return this._parent
-        }
         set directory(pth){
             let targetPath=path.normalize(pth)
             if(targetPath.substring(0,2)=='..')
