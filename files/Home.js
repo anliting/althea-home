@@ -68,10 +68,13 @@ function createTc(ui){
         this._site=site
         this.fm=new FileManager(this)
         this.fm.directory=directory
-        this.fm.send=async a=>(await this._site).send(a)
+        this.fm.send=a=>this.send(a)
         this.rightFm=new FileManager(this)
         this.rightFm.directory=directory
-        this.rightFm.send=async a=>(await this._site).send(a)
+        this.rightFm.send=a=>this.send(a)
+    }
+    Home.prototype.send=async function(a){
+        return(await this._site).send(a)
     }
     Object.defineProperty(Home.prototype,'ui',{configurable:true,get(){
         Object.defineProperty(this,'ui',{value:new Ui(this)})
