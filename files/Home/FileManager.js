@@ -2,13 +2,19 @@
     let[
         path,
         EventEmmiter,
-        setupDiv,
         setupFilelist,
+        genkeydown,
+        Fileuploading,
+        AudioPlayer,
+        Ui,
     ]=await Promise.all([
         module.repository.npm.path,
         module.repository.althea.EventEmmiter,
-        module.shareImport('FileManager/prototype.setupDiv.js'),
         module.shareImport('FileManager/prototype.setupFilelist.js'),
+        module.shareImport('FileManager/genkeydown.js'),
+        module.shareImport('FileManager/Fileuploading.js'),
+        module.shareImport('FileManager/AudioPlayer.js'),
+        module.shareImport('FileManager/Ui.js'),
     ])
     function FileManager(){
         EventEmmiter.call(this)
@@ -29,13 +35,13 @@
         if(!this.div){
             this.fileuploadings=[]
             this.div=this.ui.node
-            this.setupDiv()
+            this.setupFilelistStatus=0
+            this.setupFilelist()
         }else{
             this.purgeFilelist()
             this.setupFilelist()
         }
     }
-    FileManager.prototype.setupDiv=setupDiv
     FileManager.prototype.setupFilelist=setupFilelist
     FileManager.prototype.purgeFilelist=function(){
         this.focus=undefined
@@ -48,7 +54,34 @@
         this.filelist[this.focus].li.style.backgroundColor='lightgray'
     }
     Object.defineProperty(FileManager.prototype,'ui',{get(){
-        this._ui=this._ui||new Ui
+        if(this._ui)
+            return this._ui 
+        let sendfile=(file,update)=>{
+            let fileuploading=new Fileuploading(
+                this.directory,
+                file.name,
+                file
+            )
+            this.fileuploadings.push(fileuploading)
+            fileuploading.send().then(()=>{
+                this.fileuploadings.splice(
+                    this.fileuploadings.indexOf(fileuploading),
+                    1
+                )
+                update()
+            })
+            update()
+        }
+        this._ui=new Ui
+        this._ui.node.addEventListener('keydown',genkeydown(this))
+        this._ui.drop=e=>{
+            for(let i=0;i<e.dataTransfer.files.length;i++){
+                sendfile(e.dataTransfer.files[i],()=>{
+                    this.purgeFilelist()
+                    this.setupFilelist()
+                })
+            }
+        }
         return this._ui
     }})
     Object.defineProperty(FileManager.prototype,'send',{
@@ -81,26 +114,6 @@
             function:'getDirectoryInformation',
             path
         })
-    }
-    function Ui(){
-        this.node=document.createElement('div')
-    }
-    function AudioPlayer(){
-    }
-    AudioPlayer.prototype.start=function(src){
-        this.audio=createAudio(src)
-        function createAudio(src){
-            let a=document.createElement('audio')
-            a.src=src
-            a.autoplay=true
-            return a
-        }
-    }
-    AudioPlayer.prototype.end=function(){
-        this.audio.parentNode.removeChild(
-            this.audio
-        )
-        delete this.audio
     }
     return FileManager
 })()
