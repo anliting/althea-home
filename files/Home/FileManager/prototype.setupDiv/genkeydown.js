@@ -11,7 +11,7 @@
             return
         let f=fileManager.filelist[fileManager.focus]
         f.beRenamed('append').then(name=>{
-            fileManager.rename(f,name)
+            fileManager._rename(f,name)
         })
     }else if(e.keyCode==68||e.keyCode==46){ // d
         e.preventDefault()
@@ -33,7 +33,7 @@
             return
         let f=fileManager.filelist[fileManager.focus]
         f.beRenamed('insert').then(name=>{
-            fileManager.rename(f,name)
+            fileManager._rename(f,name)
         })
     }else if(e.keyCode==74){ // j
         e.preventDefault()

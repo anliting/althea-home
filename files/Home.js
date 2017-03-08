@@ -21,9 +21,6 @@
                 path:`${fm.directory}/${f.name}`,
                 newpath:`${fm.directory}/${name}`,
             })
-            fm.div.focus()
-            fm.purgeFilelist()
-            fm.setupFilelist()
         }
         fm.mkdir=async name=>{
             let site=await home._site
@@ -40,8 +37,8 @@
     }
     Object.defineProperty(Home.prototype,'ui',{configurable:true,get(){
         let ui=new Ui
-        ui.appendLeftChild(this.fm.div)
-        ui.appendRightChild(this.rightFm.div)
+        ui.appendLeftChild(this.fm.ui.node)
+        ui.appendRightChild(this.rightFm.ui.node)
         ui.getDiskSpace=()=>this.getDiskSpace()
         Object.defineProperty(this,'ui',{value:ui.node})
         return this.ui

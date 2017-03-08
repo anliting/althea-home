@@ -28,7 +28,7 @@
     FileManager.prototype._directoryChange=function(){
         if(!this.div){
             this.fileuploadings=[]
-            this.div=document.createElement('div')
+            this.div=this.ui.node
             this.setupDiv()
         }else{
             this.purgeFilelist()
@@ -48,7 +48,8 @@
         this.filelist[this.focus].li.style.backgroundColor='lightgray'
     }
     Object.defineProperty(FileManager.prototype,'ui',{get(){
-        return this.div
+        this._ui=this._ui||new Ui
+        return this._ui
     }})
     Object.defineProperty(FileManager.prototype,'send',{
         configurable:true,
@@ -64,6 +65,12 @@
             )
         }
     })
+    FileManager.prototype._rename=async function(f,name){
+        await this.rename(f,name)
+        this.div.focus()
+        this.purgeFilelist()
+        this.setupFilelist()
+    }
     FileManager.prototype.getDiskSpace=function(){
         return this.send({
             function:'getDiskSpace',
@@ -74,6 +81,9 @@
             function:'getDirectoryInformation',
             path
         })
+    }
+    function Ui(){
+        this.node=document.createElement('div')
     }
     function AudioPlayer(){
     }
