@@ -8,12 +8,32 @@
     ])
     function Home(site,directory){
         this._site=site
-        this.fm=new FileManager(this)
-        this.fm.directory=directory
-        this.fm.send=a=>this.send(a)
-        this.rightFm=new FileManager(this)
-        this.rightFm.directory=directory
-        this.rightFm.send=a=>this.send(a)
+        this.fm=createFM(this,directory)
+        this.rightFm=createFM(this,directory)
+    }
+    function createFM(home,directory){
+        let fm=new FileManager
+        fm.directory=directory
+        fm.rename=async(f,name)=>{
+            let site=await home._site
+            await site.send({
+                function:'renameFile',
+                path:`${fm.directory}/${f.name}`,
+                newpath:`${fm.directory}/${name}`,
+            })
+            fm.div.focus()
+            fm.purgeFilelist()
+            fm.setupFilelist()
+        }
+        fm.mkdir=async name=>{
+            let site=await home._site
+            return site.send({
+                function:'createDirectory',
+                path:`${fm.directory}/${name}`,
+            })
+        }
+        fm.send=a=>home.send(a)
+        return fm
     }
     Home.prototype.send=async function(a){
         return(await this._site).send(a)

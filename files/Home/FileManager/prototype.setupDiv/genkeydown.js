@@ -1,75 +1,64 @@
-(home=>e=>{
+(fileManager=>e=>{
     if(e.keyCode==35){ // end
         e.preventDefault()
-        home.focusOn(home.filelist.length-1)
-    }else if(e.keyCode==36){ // home
+        fileManager.focusOn(fileManager.filelist.length-1)
+    }else if(e.keyCode==36){ // fileManager
         e.preventDefault()
-        home.focusOn(0)
+        fileManager.focusOn(0)
     }else if(e.keyCode==65){ // a
         e.preventDefault()
-        if(home.focus==undefined)
+        if(fileManager.focus==undefined)
             return
-        let f=home.filelist[home.focus]
+        let f=fileManager.filelist[fileManager.focus]
         f.beRenamed('append').then(name=>{
-            rename(f,name)
+            fileManager.rename(f,name)
         })
     }else if(e.keyCode==68||e.keyCode==46){ // d
         e.preventDefault()
-        if(home.focus==undefined)
+        if(fileManager.focus==undefined)
             return
-        home.filelist[home.focus].beRemoved().then(()=>{
-            home.purgeFilelist()
-            home.setupFilelist()
+        fileManager.filelist[fileManager.focus].beRemoved().then(()=>{
+            fileManager.purgeFilelist()
+            fileManager.setupFilelist()
         })
     }else if(e.keyCode==71){ // g
         e.preventDefault()
-        home.focusOn(e.shiftKey?home.filelist.length-1:0)
+        fileManager.focusOn(e.shiftKey?fileManager.filelist.length-1:0)
     }else if(e.keyCode==72){ // h
         e.preventDefault()
-        home.directory+='/..'
+        fileManager.directory+='/..'
     }else if(e.keyCode==73){ // i
         e.preventDefault()
-        if(home.focus==undefined)
+        if(fileManager.focus==undefined)
             return
-        let f=home.filelist[home.focus]
+        let f=fileManager.filelist[fileManager.focus]
         f.beRenamed('insert').then(name=>{
-            rename(f,name)
+            fileManager.rename(f,name)
         })
     }else if(e.keyCode==74){ // j
         e.preventDefault()
-        if(home.focus==undefined)
-            home.focusOn(0)
-        else if(home.focus+1<home.filelist.length)
-            home.focusOn(home.focus+1)
+        if(fileManager.focus==undefined)
+            fileManager.focusOn(0)
+        else if(fileManager.focus+1<fileManager.filelist.length)
+            fileManager.focusOn(fileManager.focus+1)
     }else if(e.keyCode==75){ // k
         e.preventDefault()
-        if(home.focus==undefined)
-            home.focusOn(0)
-        else if(0<=home.focus-1)
-            home.focusOn(home.focus-1)
+        if(fileManager.focus==undefined)
+            fileManager.focusOn(0)
+        else if(0<=fileManager.focus-1)
+            fileManager.focusOn(fileManager.focus-1)
     }else if(e.keyCode==76||e.keyCode==13){ // l
         e.preventDefault()
-        if(home.focus==undefined)
+        if(fileManager.focus==undefined)
             return
-        home.filelist[home.focus].execute()
+        fileManager.filelist[fileManager.focus].execute()
     }else if(e.keyCode==79){ // o
         e.preventDefault()
         let li=createLi()
-        home.div.ul.appendChild(
+        fileManager.div.ul.appendChild(
             li
         )
         li.firstChild.select()
-    }
-    async function rename(f,name){
-        let site=await home.home._site
-        await site.send({
-            function:'renameFile',
-            path:`${home.directory}/${f.name}`,
-            newpath:`${home.directory}/${name}`,
-        })
-        home.div.focus()
-        home.purgeFilelist()
-        home.setupFilelist()
     }
     function createLi(){
         let li=document.createElement('li')
@@ -87,20 +76,13 @@
                     input.selectionStart==input.selectionEnd
             ){
                 input.parentNode.remove(input)
-                home.div.focus()
-                mkdir(input.value).then(()=>{
-                    home.purgeFilelist()
-                    home.setupFilelist()
+                fileManager.div.focus()
+                fileManager.mkdir(input.value).then(()=>{
+                    fileManager.purgeFilelist()
+                    fileManager.setupFilelist()
                 })
             }
         }
         return input
-    }
-    async function mkdir(name){
-        let site=await home.home._site
-        return site.send({
-            function:'createDirectory',
-            path:`${home.directory}/${name}`,
-        })
     }
 })

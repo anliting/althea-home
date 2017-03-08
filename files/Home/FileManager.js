@@ -10,9 +10,8 @@
         module.shareImport('FileManager/prototype.setupDiv.js'),
         module.shareImport('FileManager/prototype.setupFilelist.js'),
     ])
-    function FileManager(home){
+    function FileManager(){
         EventEmmiter.call(this)
-        this.home=home
         this.pendingRequest=[]
         this.on('directoryChange',()=>{
             if(!this.div){
