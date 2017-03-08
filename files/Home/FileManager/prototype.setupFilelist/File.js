@@ -10,18 +10,18 @@ Promise.all([
         EventEmmiter=   modules[2]
     function File(fileManager,name,isDirectory){
         EventEmmiter.call(this)
-        this.home=fileManager
+        this.fileManager=fileManager
         this.name=name
         this.isDirectory=isDirectory
         this.href=path.normalize(
-            '/home/'+this.home.directory+'/'+this.name+
+            '/home/'+this.fileManager.directory+'/'+this.name+
             (this.isDirectory?'/':'')
         )
     }
     Object.setPrototypeOf(File.prototype,EventEmmiter.prototype)
     File.prototype.execute=function(){
         this.emit('execute')
-        this.home.emit('fileExecuted',this)
+        this.fileManager.emit('fileExecuted',this)
     }
     File.prototype.setupLi=function(){
         let file=this
@@ -29,7 +29,7 @@ Promise.all([
         function createLi(){
             let li=document.createElement('li')
             li.onclick=()=>{
-                file.home.focusOn(file.index)
+                file.fileManager.focusOn(file.index)
             }
             li.ondblclick=()=>{
                 file.execute()
@@ -48,8 +48,8 @@ Promise.all([
                 e.stopPropagation()
                 if(file.isDirectory&&e.which==1){
                     e.preventDefault()
-                    file.home.directory=
-                        path.normalize(file.home.directory+'/'+file.name)
+                    file.fileManager.directory=
+                        path.normalize(file.fileManager.directory+'/'+file.name)
                 }
             }
             a.textContent=file.name+
@@ -65,12 +65,12 @@ Promise.all([
                 e.stopPropagation()
                 if(state==0){
                     state=1
-                    if(file.home.audioPlayer)
+                    if(file.fileManager.audioPlayer)
                         stop()
-                    file.home.audioPlayer=document.createElement('audio')
-                    file.home.audioPlayer.src=file.href
-                    file.home.audioPlayer.autoplay=true
-                    file.home.div.appendChild(file.home.audioPlayer)
+                    file.fileManager.audioPlayer=document.createElement('audio')
+                    file.fileManager.audioPlayer.src=file.href
+                    file.fileManager.audioPlayer.autoplay=true
+                    file.fileManager.div.appendChild(file.fileManager.audioPlayer)
                     a.textContent='(stop)'
                 }else if(state==1){
                     state=0
@@ -81,10 +81,10 @@ Promise.all([
             a.textContent='(play)'
             return a
             function stop(){
-                file.home.audioPlayer.parentNode.removeChild(
-                    file.home.audioPlayer
+                file.fileManager.audioPlayer.parentNode.removeChild(
+                    file.fileManager.audioPlayer
                 )
-                delete file.home.audioPlayer
+                delete file.fileManager.audioPlayer
             }
         }
         function getExtension(s){
@@ -95,7 +95,7 @@ Promise.all([
     File.prototype.beRemoved=function(){
         return site.send({
             function:'remove',
-            path:`${this.home.directory}/${this.name}`,
+            path:`${this.fileManager.directory}/${this.name}`,
         })
     }
     File.prototype.beRenamed=modules[3]
