@@ -99,5 +99,13 @@ Promise.all([
         })
     }
     File.prototype.beRenamed=modules[3]
+    File.prototype.rename=async function(newname){
+        let site=await this.home.home._site
+        return site.send({
+            function:'renameFile',
+            path:`${this.home.directory}/${this.name}`,
+            newpath:`${this.home.directory}/${newname}`,
+        })
+    }
     return File
 })

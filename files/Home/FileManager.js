@@ -1,19 +1,19 @@
 ;(async()=>{
     let[
-        setupDiv,
         path,
         EventEmmiter,
+        setupDiv,
         setupFilelist,
     ]=await Promise.all([
-        module.shareImport('FileManager/setupDiv.js'),
         module.repository.npm.path,
         module.repository.althea.EventEmmiter,
+        module.shareImport('FileManager/setupDiv.js'),
         module.shareImport('FileManager/prototype.setupFilelist.js'),
     ])
     function FileManager(home){
         EventEmmiter.call(this)
-        this.pendingRequest=[]
         this.home=home
+        this.pendingRequest=[]
         this.on('directoryChange',()=>{
             if(!this.div){
                 this.fileuploadings=[]

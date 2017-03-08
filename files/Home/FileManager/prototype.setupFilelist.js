@@ -2,30 +2,32 @@
     let File=await module.shareImport('File.js')
     return function(){
         let
-            home=this
-        if(home.setupFilelistStatus!=0)
-            return home.setupFilelistStatus=2
-        home.setupFilelistStatus=1
-        home.getDirectoryInformation(home.directory).then(files=>{
-            home.files=[]
-            if(home.directory[0]!='.')
+            fileManager=this
+        if(fileManager.setupFilelistStatus!=0)
+            return fileManager.setupFilelistStatus=2
+        fileManager.setupFilelistStatus=1
+        fileManager.getDirectoryInformation(
+            fileManager.directory
+        ).then(files=>{
+            fileManager.files=[]
+            if(fileManager.directory[0]!='.')
                 files.push({name:'..',isDirectory:true})
             files.forEach(file=>{
-                home.files.push(new File(
-                    home,
+                fileManager.files.push(new File(
+                    fileManager,
                     file.name,
                     file.isDirectory
                 ))
             })
-            home.div.ul=createUl()
-            home.div.appendChild(home.div.ul)
+            fileManager.div.ul=createUl()
+            fileManager.div.appendChild(fileManager.div.ul)
             {
-                let toDoAgain=home.setupFilelistStatus==2
-                home.setupFilelistStatus=0
+                let toDoAgain=fileManager.setupFilelistStatus==2
+                fileManager.setupFilelistStatus=0
                 if(!toDoAgain)
                     return
-                home.purgeFilelist()
-                home.setupFilelist()
+                fileManager.purgeFilelist()
+                fileManager.setupFilelist()
             }
         },err=>{
             throw err
@@ -34,14 +36,14 @@
             let
                 ul=document.createElement('ul'),
                 files
-            home.filelist=home.files.concat(home.fileuploadings)
-            home.filelist.sort((a,b)=>{
+            fileManager.filelist=fileManager.files.concat(fileManager.fileuploadings)
+            fileManager.filelist.sort((a,b)=>{
                 return a.name.localeCompare(b.name)
             })
-            home.filelist.map((file,index)=>{
+            fileManager.filelist.map((file,index)=>{
                 file.setupLi()
                 file.li.onclick=()=>{
-                    home.focusOn(index)
+                    fileManager.focusOn(index)
                 }
                 ul.appendChild(
                     file.li
