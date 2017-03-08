@@ -3,34 +3,34 @@
         genkeydown,
         Fileuploading,
     ]=await Promise.all([
-        module.shareImport('setupDiv/genkeydown.js'),
+        module.shareImport('prototype.setupDiv/genkeydown.js'),
         module.shareImport('Fileuploading.js'),
     ])
     function setupDiv(){
         let
-            home=this,
+            fileManager=this,
             div
-        home.setupFilelistStatus=0
-        home.div.tabIndex=0
-        home.div.style.outline='none'
-        home.div.style.position='relative'
-        home.div.addEventListener('keydown',genkeydown(this))
-        home.div.addEventListener('drop',e=>{
+        fileManager.setupFilelistStatus=0
+        fileManager.div.tabIndex=0
+        fileManager.div.style.outline='none'
+        fileManager.div.style.position='relative'
+        fileManager.div.addEventListener('keydown',genkeydown(this))
+        fileManager.div.addEventListener('drop',e=>{
             e.preventDefault()
-            home.div.style.backgroundColor=''
+            fileManager.div.style.backgroundColor=''
             for(let i=0;i<e.dataTransfer.files.length;i++){
                 sendfile(e.dataTransfer.files[i],()=>{
-                    home.purgeFilelist()
-                    home.setupFilelist()
+                    fileManager.purgeFilelist()
+                    fileManager.setupFilelist()
                 })
             }
         })
-        home.div.addEventListener('dragover',e=>{
+        fileManager.div.addEventListener('dragover',e=>{
             e.preventDefault()
         })
-        home.div.addEventListener('dragenter',e=>{
+        fileManager.div.addEventListener('dragenter',e=>{
             e.preventDefault()
-            home.div.style.backgroundColor='lightgray'
+            fileManager.div.style.backgroundColor='lightgray'
             if(!div){
                 div=document.createElement('div')
                 div.style.position='absolute'
@@ -38,25 +38,25 @@
                 div.style.width='100%'
                 div.style.height='100%'
                 div.addEventListener('dragleave',e=>{
-                    home.div.removeChild(div)
-                    home.div.style.backgroundColor=''
+                    fileManager.div.removeChild(div)
+                    fileManager.div.style.backgroundColor=''
                     div=undefined
                 })
                 let fileInput=createFileInput()
-                home.div.appendChild(div)
+                fileManager.div.appendChild(div)
             }
         })
-        home.setupFilelist()
+        fileManager.setupFilelist()
         function sendfile(file,update){
             let fileuploading=new Fileuploading(
-                home.directory,
+                fileManager.directory,
                 file.name,
                 file
             )
-            home.fileuploadings.push(fileuploading)
+            fileManager.fileuploadings.push(fileuploading)
             fileuploading.send().then(()=>{
-                home.fileuploadings.splice(
-                    home.fileuploadings.indexOf(fileuploading),
+                fileManager.fileuploadings.splice(
+                    fileManager.fileuploadings.indexOf(fileuploading),
                     1
                 )
                 update()

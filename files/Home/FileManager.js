@@ -7,7 +7,7 @@
     ]=await Promise.all([
         module.repository.npm.path,
         module.repository.althea.EventEmmiter,
-        module.shareImport('FileManager/setupDiv.js'),
+        module.shareImport('FileManager/prototype.setupDiv.js'),
         module.shareImport('FileManager/prototype.setupFilelist.js'),
     ])
     function FileManager(home){

@@ -1,11 +1,7 @@
 (function(type){
-    let
-        file=this,
-        input,
-        p
-    input=createInput(this)
+    let input=createInput(this)
     this.li.innerHTML=''
-    p=new Promise(rs=>{
+    let p=new Promise(rs=>{
         input.onkeydown=e=>{
             e.stopPropagation()
             if(
@@ -14,8 +10,8 @@
                     input.selectionStart==input.selectionEnd
             ){
                 input.parentNode.remove(input)
-                file.home.div.focus()
-                rs(file.rename(input.value))
+                this.home.div.focus()
+                rs(input.value)
             }
         }
     })

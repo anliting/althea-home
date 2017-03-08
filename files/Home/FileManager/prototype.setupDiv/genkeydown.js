@@ -9,9 +9,9 @@
         e.preventDefault()
         if(home.focus==undefined)
             return
-        home.filelist[home.focus].beRenamed('append').then(()=>{
-            home.purgeFilelist()
-            home.setupFilelist()
+        let f=home.filelist[home.focus]
+        f.beRenamed('append').then(name=>{
+            rename(f,name)
         })
     }else if(e.keyCode==68||e.keyCode==46){ // d
         e.preventDefault()
@@ -31,9 +31,9 @@
         e.preventDefault()
         if(home.focus==undefined)
             return
-        home.filelist[home.focus].beRenamed('insert').then(()=>{
-            home.purgeFilelist()
-            home.setupFilelist()
+        let f=home.filelist[home.focus]
+        f.beRenamed('insert').then(name=>{
+            rename(f,name)
         })
     }else if(e.keyCode==74){ // j
         e.preventDefault()
@@ -59,6 +59,16 @@
             li
         )
         li.firstChild.select()
+    }
+    async function rename(f,name){
+        let site=await home.home._site
+        await site.send({
+            function:'renameFile',
+            path:`${home.directory}/${f.name}`,
+            newpath:`${home.directory}/${name}`,
+        })
+        home.purgeFilelist()
+        home.setupFilelist()
     }
     function createLi(){
         let li=document.createElement('li')

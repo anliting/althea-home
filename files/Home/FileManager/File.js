@@ -8,9 +8,9 @@ Promise.all([
         site=           modules[0],
         path=           modules[1],
         EventEmmiter=   modules[2]
-    function File(home,name,isDirectory){
+    function File(fileManager,name,isDirectory){
         EventEmmiter.call(this)
-        this.home=home
+        this.home=fileManager
         this.name=name
         this.isDirectory=isDirectory
         this.href=path.normalize(
@@ -99,13 +99,5 @@ Promise.all([
         })
     }
     File.prototype.beRenamed=modules[3]
-    File.prototype.rename=async function(newname){
-        let site=await this.home.home._site
-        return site.send({
-            function:'renameFile',
-            path:`${this.home.directory}/${this.name}`,
-            newpath:`${this.home.directory}/${newname}`,
-        })
-    }
     return File
 })
