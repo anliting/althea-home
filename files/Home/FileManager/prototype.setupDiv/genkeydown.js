@@ -67,6 +67,7 @@
             path:`${home.directory}/${f.name}`,
             newpath:`${home.directory}/${name}`,
         })
+        home.div.focus()
         home.purgeFilelist()
         home.setupFilelist()
     }

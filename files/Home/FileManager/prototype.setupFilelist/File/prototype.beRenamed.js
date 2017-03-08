@@ -10,7 +10,6 @@
                     input.selectionStart==input.selectionEnd
             ){
                 input.parentNode.remove(input)
-                this.fileManager.div.focus()
                 rs(input.value)
             }
         }
