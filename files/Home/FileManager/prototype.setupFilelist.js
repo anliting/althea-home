@@ -1,8 +1,7 @@
 (async()=>{
-    let File=await module.shareImport('File.js')
+    let File=await module.shareImport('prototype.setupFilelist/File.js')
     return function(){
-        let
-            fileManager=this
+        let fileManager=this
         if(fileManager.setupFilelistStatus!=0)
             return fileManager.setupFilelistStatus=2
         fileManager.setupFilelistStatus=1
@@ -12,7 +11,7 @@
             fileManager.files=[]
             if(fileManager.directory[0]!='.')
                 files.push({name:'..',isDirectory:true})
-            files.forEach(file=>{
+            files.map(file=>{
                 fileManager.files.push(new File(
                     fileManager,
                     file.name,
@@ -36,7 +35,9 @@
             let
                 ul=document.createElement('ul'),
                 files
-            fileManager.filelist=fileManager.files.concat(fileManager.fileuploadings)
+            fileManager.filelist=fileManager.files.concat(
+                fileManager.fileuploadings
+            )
             fileManager.filelist.sort((a,b)=>{
                 return a.name.localeCompare(b.name)
             })
