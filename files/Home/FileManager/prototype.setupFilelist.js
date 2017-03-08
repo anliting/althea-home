@@ -1,50 +1,61 @@
-(async()=>{
+;(async()=>{
     let[
         path,
         File,
+        site,
     ]=await Promise.all([
         module.repository.npm.path,
-        module.shareImport('prototype.setupFilelist/File.js')
+        module.shareImport('prototype.setupFilelist/File.js'),
+        module.repository.althea.site,
     ])
-    return function(){
+    function createFile(fileManager,name,isDirectory){
+        let f=new File(fileManager,name,isDirectory)
+        f.href=path.normalize(
+            '/home/'+fileManager.directory+'/'+name+
+            (isDirectory?'/':'')
+        )
+        f.on('execute',()=>
+            fileManager.emit('fileExecuted',f)
+        )
+        f.on('click',()=>
+            fileManager.focusOn(f.index)
+        )
+        f.beRemoved=function(){
+            return site.send({
+                function:'remove',
+                path:`${fileManager.directory}/${f.name}`,
+            })
+        }
+        return f
+    }
+    return async function(){
         let fileManager=this
         if(fileManager.setupFilelistStatus!=0)
             return fileManager.setupFilelistStatus=2
         fileManager.setupFilelistStatus=1
-        fileManager.getDirectoryInformation(
+        let files=await fileManager.getDirectoryInformation(
             fileManager.directory
-        ).then(files=>{
-            fileManager.files=[]
-            if(fileManager.directory[0]!='.')
-                files.push({name:'..',isDirectory:true})
-            files.map(file=>{
-                let f=new File(
-                    fileManager,
-                    file.name,
-                    file.isDirectory
-                )
-                f.href=path.normalize(
-                    '/home/'+fileManager.directory+'/'+file.name+
-                    (file.isDirectory?'/':'')
-                )
-                f.on('execute',()=>
-                    fileManager.emit('fileExecuted',f)
-                )
-                fileManager.files.push(f)
-            })
-            fileManager.div.ul=createUl()
-            fileManager.div.appendChild(fileManager.div.ul)
-            {
-                let toDoAgain=fileManager.setupFilelistStatus==2
-                fileManager.setupFilelistStatus=0
-                if(!toDoAgain)
-                    return
-                fileManager.purgeFilelist()
-                fileManager.setupFilelist()
-            }
-        },err=>{
-            throw err
+        )
+        fileManager.files=[]
+        if(fileManager.directory[0]!='.')
+            files.push({name:'..',isDirectory:true})
+        files.map(file=>{
+            fileManager.files.push(createFile(
+                fileManager,
+                file.name,
+                file.isDirectory
+            ))
         })
+        fileManager.div.ul=createUl()
+        fileManager.div.appendChild(fileManager.div.ul)
+        {
+            let toDoAgain=fileManager.setupFilelistStatus==2
+            fileManager.setupFilelistStatus=0
+            if(!toDoAgain)
+                return
+            fileManager.purgeFilelist()
+            fileManager.setupFilelist()
+        }
         function createUl(){
             let
                 ul=document.createElement('ul'),

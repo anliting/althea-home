@@ -22,7 +22,8 @@ module.importByPath('lib/general.js',{mode:1}).then(async general=>{
     home.fm.on('fileExecuted',e=>{
         if(!e.isDirectory)
             location=e.href
-        home.fm.directory+='/'+e.name
+        else
+            home.fm.directory+='/'+e.name
     })
     onpopstate=e=>{
         listenToDirectoryChange=false

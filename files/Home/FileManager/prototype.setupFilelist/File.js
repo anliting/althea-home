@@ -24,7 +24,7 @@ Promise.all([
         function createLi(){
             let li=document.createElement('li')
             li.onclick=()=>{
-                file.fileManager.focusOn(file.index)
+                file.emit('click')
             }
             li.ondblclick=()=>{
                 file.execute()
@@ -41,16 +41,11 @@ Promise.all([
             a.href=file.href
             a.onclick=e=>{
                 e.stopPropagation()
-                if(file.isDirectory&&e.which==1){
-                    e.preventDefault()
-                    file.fileManager.directory=
-                        path.normalize(
-                            file.fileManager.directory+'/'+file.name
-                        )
-                }
+                if(e.which!=1)
+                e.preventDefault()
+                file.execute()
             }
-            a.textContent=file.name+
-                (file.isDirectory?'/':'')
+            a.textContent=file.name+(file.isDirectory?'/':'')
             return a
         }
         function createAAudio(){
@@ -88,12 +83,6 @@ Promise.all([
             let p=s.lastIndexOf('.')+1
             return p<0?null:s.substring(p)
         }
-    }
-    File.prototype.beRemoved=function(){
-        return site.send({
-            function:'remove',
-            path:`${this.fileManager.directory}/${this.name}`,
-        })
     }
     File.prototype.beRenamed=modules[3]
     return File
