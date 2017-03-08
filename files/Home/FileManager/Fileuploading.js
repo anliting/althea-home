@@ -34,9 +34,11 @@ Fileuploading.prototype.showLoaded=function(){
             (proportion*100).toFixed(2)
     }% uploaded${
         timeSpentInMs?
-            ', '+0.001*Math.floor(
-                1000*this.loaded.loaded/1048576/(timeSpentInMs/1000)
-            )+'MiB/s'
+            `, ${
+                (
+                    this.loaded.loaded/1048576/(timeSpentInMs/1000)
+                ).toFixed(3)
+            }MiB/s`
         :
             ''
     })`
