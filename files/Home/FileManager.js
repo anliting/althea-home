@@ -13,33 +13,7 @@
     function FileManager(){
         EventEmmiter.call(this)
         this.pendingRequest=[]
-        this.on('directoryChange',()=>{
-            if(!this.div){
-                this.fileuploadings=[]
-                this.div=document.createElement('div')
-                this.setupDiv()
-            }else{
-                this.purgeFilelist()
-                this.setupFilelist()
-            }
-        })
-        this.audioPlayer={
-            start(src){
-                this.audio=createAudio(src)
-                function createAudio(src){
-                    let a=document.createElement('audio')
-                    a.src=src
-                    a.autoplay=true
-                    return a
-                }
-            },
-            end(){
-                this.audio.parentNode.removeChild(
-                    this.audio
-                )
-                delete this.audio
-            }
-        }
+        this.audioPlayer=new AudioPlayer
     }
     Object.setPrototypeOf(FileManager.prototype,EventEmmiter.prototype)
     Object.defineProperty(FileManager.prototype,'directory',{set(pth){
@@ -47,10 +21,20 @@
         if(targetPath.substring(0,2)=='..')
             return
         this._directory=targetPath
-        this.emit('directoryChange')
+        this._directoryChange()
     },get(){
         return this._directory
     }})
+    FileManager.prototype._directoryChange=function(){
+        if(!this.div){
+            this.fileuploadings=[]
+            this.div=document.createElement('div')
+            this.setupDiv()
+        }else{
+            this.purgeFilelist()
+            this.setupFilelist()
+        }
+    }
     FileManager.prototype.setupDiv=setupDiv
     FileManager.prototype.setupFilelist=setupFilelist
     FileManager.prototype.purgeFilelist=function(){
@@ -63,6 +47,9 @@
         this.focus=id
         this.filelist[this.focus].li.style.backgroundColor='lightgray'
     }
+    Object.defineProperty(FileManager.prototype,'ui',{get(){
+        return this.div
+    }})
     Object.defineProperty(FileManager.prototype,'send',{
         configurable:true,
         set(v){
@@ -87,6 +74,23 @@
             function:'getDirectoryInformation',
             path
         })
+    }
+    function AudioPlayer(){
+    }
+    AudioPlayer.prototype.start=function(src){
+        this.audio=createAudio(src)
+        function createAudio(src){
+            let a=document.createElement('audio')
+            a.src=src
+            a.autoplay=true
+            return a
+        }
+    }
+    AudioPlayer.prototype.end=function(){
+        this.audio.parentNode.removeChild(
+            this.audio
+        )
+        delete this.audio
     }
     return FileManager
 })()
