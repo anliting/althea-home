@@ -42,6 +42,7 @@ Promise.all([
             a.onclick=e=>{
                 e.stopPropagation()
                 if(e.which!=1)
+                    return
                 e.preventDefault()
                 file.execute()
             }
