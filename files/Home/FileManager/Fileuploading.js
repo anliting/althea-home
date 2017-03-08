@@ -30,19 +30,16 @@ Fileuploading.prototype.showLoaded=function(){
     this.showedLoaded=loadedToBeShown
     let timeSpentInMs=(new Date).getTime()-this.starttime
     fileuploading.div.style.width=proportion*100+'%'
-    fileuploading.span.textContent=
-        fileuploading.name+' ('+(
-            Math.floor(
-                100*(proportion*100)
-            )/100
-        )+'% uploaded'+(
-            timeSpentInMs?
-                ', '+0.001*Math.floor(
-                    1000*this.loaded.loaded/1048576/(timeSpentInMs/1000)
-                )+'MiB/s'
-            :
-                ''
-        )+')'
+    fileuploading.span.textContent=`${fileuploading.name} (${
+            (proportion*100).toFixed(2)
+    }% uploaded${
+        timeSpentInMs?
+            ', '+0.001*Math.floor(
+                1000*this.loaded.loaded/1048576/(timeSpentInMs/1000)
+            )+'MiB/s'
+        :
+            ''
+    })`
 }
 Fileuploading.prototype.setupLi=function(){
     let fileuploading=this
