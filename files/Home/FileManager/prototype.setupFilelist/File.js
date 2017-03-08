@@ -8,9 +8,8 @@ Promise.all([
         site=           modules[0],
         path=           modules[1],
         EventEmmiter=   modules[2]
-    function File(fileManager,name,isDirectory){
+    function File(name,isDirectory){
         EventEmmiter.call(this)
-        this.fileManager=fileManager
         this.name=name
         this.isDirectory=isDirectory
     }
@@ -58,27 +57,19 @@ Promise.all([
                 e.stopPropagation()
                 if(state==0){
                     state=1
-                    if(file.fileManager.audioPlayer)
-                        stop()
-                    file.fileManager.audioPlayer=document.createElement('audio')
-                    file.fileManager.audioPlayer.src=file.href
-                    file.fileManager.audioPlayer.autoplay=true
-                    file.fileManager.div.appendChild(file.fileManager.audioPlayer)
+                    file.emit('startAudio',file.href)
                     a.textContent='(stop)'
                 }else if(state==1){
                     state=0
-                    stop()
+                    file.emit('endAudio',file.href)
                     a.textContent='(play)'
                 }
             }
+            a.ondblclick=e=>{
+                e.stopPropagation()
+            }
             a.textContent='(play)'
             return a
-            function stop(){
-                file.fileManager.audioPlayer.parentNode.removeChild(
-                    file.fileManager.audioPlayer
-                )
-                delete file.fileManager.audioPlayer
-            }
         }
         function getExtension(s){
             let p=s.lastIndexOf('.')+1

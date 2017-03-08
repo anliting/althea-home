@@ -24,6 +24,23 @@
                 this.setupFilelist()
             }
         })
+        this.audioPlayer={
+            start(src){
+                this.audio=createAudio(src)
+                function createAudio(src){
+                    let a=document.createElement('audio')
+                    a.src=src
+                    a.autoplay=true
+                    return a
+                }
+            },
+            end(){
+                this.audio.parentNode.removeChild(
+                    this.audio
+                )
+                delete this.audio
+            }
+        }
     }
     Object.setPrototypeOf(FileManager.prototype,EventEmmiter.prototype)
     Object.defineProperty(FileManager.prototype,'directory',{set(pth){

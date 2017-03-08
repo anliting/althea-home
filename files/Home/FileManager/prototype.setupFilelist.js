@@ -9,7 +9,7 @@
         module.repository.althea.site,
     ])
     function createFile(fileManager,name,isDirectory){
-        let f=new File(fileManager,name,isDirectory)
+        let f=new File(name,isDirectory)
         f.href=path.normalize(
             '/home/'+fileManager.directory+'/'+name+
             (isDirectory?'/':'')
@@ -20,6 +20,15 @@
         f.on('click',()=>
             fileManager.focusOn(f.index)
         )
+        f.on('startAudio',()=>{
+            if(fileManager.audioPlayer.audio)
+                fileManager.audioPlayer.end()
+            fileManager.audioPlayer.start(f.href)
+            fileManager.div.appendChild(fileManager.audioPlayer.audio)
+        })
+        f.on('endAudio',()=>{
+            fileManager.audioPlayer.end()
+        })
         f.beRemoved=function(){
             return site.send({
                 function:'remove',
