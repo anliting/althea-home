@@ -13,15 +13,10 @@ Promise.all([
         this.fileManager=fileManager
         this.name=name
         this.isDirectory=isDirectory
-        this.href=path.normalize(
-            '/home/'+this.fileManager.directory+'/'+this.name+
-            (this.isDirectory?'/':'')
-        )
     }
     Object.setPrototypeOf(File.prototype,EventEmmiter.prototype)
     File.prototype.execute=function(){
         this.emit('execute')
-        this.fileManager.emit('fileExecuted',this)
     }
     File.prototype.setupLi=function(){
         let file=this
@@ -49,7 +44,9 @@ Promise.all([
                 if(file.isDirectory&&e.which==1){
                     e.preventDefault()
                     file.fileManager.directory=
-                        path.normalize(file.fileManager.directory+'/'+file.name)
+                        path.normalize(
+                            file.fileManager.directory+'/'+file.name
+                        )
                 }
             }
             a.textContent=file.name+

@@ -1,5 +1,11 @@
 (async()=>{
-    let File=await module.shareImport('prototype.setupFilelist/File.js')
+    let[
+        path,
+        File,
+    ]=await Promise.all([
+        module.repository.npm.path,
+        module.shareImport('prototype.setupFilelist/File.js')
+    ])
     return function(){
         let fileManager=this
         if(fileManager.setupFilelistStatus!=0)
@@ -12,11 +18,19 @@
             if(fileManager.directory[0]!='.')
                 files.push({name:'..',isDirectory:true})
             files.map(file=>{
-                fileManager.files.push(new File(
+                let f=new File(
                     fileManager,
                     file.name,
                     file.isDirectory
-                ))
+                )
+                f.href=path.normalize(
+                    '/home/'+fileManager.directory+'/'+file.name+
+                    (file.isDirectory?'/':'')
+                )
+                f.on('execute',()=>
+                    fileManager.emit('fileExecuted',f)
+                )
+                fileManager.files.push(f)
             })
             fileManager.div.ul=createUl()
             fileManager.div.appendChild(fileManager.div.ul)
