@@ -20,7 +20,9 @@
         this.emit('execute')
     }
     Object.defineProperty(File.prototype,'ui',{get(){
-        return new Ui(this)
+        if(this._ui)
+            return this._ui
+        return this._ui=new Ui(this)
     }})
     File.prototype.beRenamed=beRenamed
     function Ui(file){

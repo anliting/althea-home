@@ -45,9 +45,9 @@
     }
     FileManager.prototype.focusOn=function(id){
         if(this.focus!=undefined)
-            this.filelist[this.focus].li.style.backgroundColor=''
+            this.filelist[this.focus].ui.li.style.backgroundColor=''
         this.focus=id
-        this.filelist[this.focus].li.style.backgroundColor='lightgray'
+        this.filelist[this.focus].ui.li.style.backgroundColor='lightgray'
     }
     Object.defineProperty(FileManager.prototype,'ui',{get(){
         if(this._ui)
