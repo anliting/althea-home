@@ -1,13 +1,17 @@
 function Ui(){
-    this.node=document.createElement('div')
-    createDiv(this)
-    this.node.appendChild(this.div)
+    this.node=createNode(this)
+}
+function createNode(ui){
+    let n=document.createElement('div')
+    ui.div=createDiv(ui)
+    n.appendChild(ui.div)
+    return n
 }
 function createDiv(ui){
-    ui.div=document.createElement('div')
-    ui.div.style.display='table'
-    ui.div.style.tableLayout='fixed'
-    ui.div.style.width='100%'
+    let div=document.createElement('div')
+    div.style.display='table'
+    div.style.tableLayout='fixed'
+    div.style.width='100%'
     ui.rowDiv=document.createElement('div')
     ui.rowDiv.style.display='table-row'
     ui.leftDiv=document.createElement('div')
@@ -18,8 +22,8 @@ function createDiv(ui){
     ui.rightDiv.style.width='50%'
     ui.rowDiv.appendChild(ui.leftDiv)
     ui.rowDiv.appendChild(ui.rightDiv)
-    ui.div.appendChild(ui.rowDiv)
-    ui.div.onkeydown=e=>{
+    div.appendChild(ui.rowDiv)
+    div.onkeydown=e=>{
         if(e.key!='t')
             return
         e.preventDefault()
@@ -30,6 +34,7 @@ function createDiv(ui){
             delete ui.tc
         }
     }
+    return div
 }
 Ui.prototype.appendLeftChild=function(n){
     this.leftDiv.appendChild(n)

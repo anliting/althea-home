@@ -25,10 +25,11 @@ function createNode(ui){
                 n.style.backgroundColor=''
                 dropDiv=undefined
             })
-            let fileInput=createFileInput()
             n.appendChild(dropDiv)
         }
     })
+    /*let fileInput=createFileInput()
+    n.appendChild(fileInput)*/
     return n
 }
 function createDropDiv(){
