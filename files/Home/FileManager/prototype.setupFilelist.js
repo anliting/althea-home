@@ -74,13 +74,9 @@
         function createUl(fileManager,a){
             let ul=document.createElement('ul')
             a.map((file,index)=>{
-                file.setupLi()
-                file.li.onclick=()=>{
-                    fileManager.focusOn(index)
-                }
-                ul.appendChild(
-                    file.li
-                )
+                let li=file.ui.li
+                li.onclick=()=>fileManager.focusOn(index)
+                ul.appendChild(li)
             })
             return ul
         }

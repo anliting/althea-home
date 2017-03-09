@@ -19,8 +19,11 @@
     File.prototype.execute=function(){
         this.emit('execute')
     }
-    File.prototype.setupLi=function(){
-        let file=this
+    Object.defineProperty(File.prototype,'ui',{get(){
+        return new Ui(this)
+    }})
+    File.prototype.beRenamed=beRenamed
+    function Ui(file){
         this.li=createLi()
         function createLi(){
             let li=document.createElement('li')
@@ -78,6 +81,5 @@
             return p<0?null:s.substring(p)
         }
     }
-    File.prototype.beRenamed=beRenamed
     return File
 })()
