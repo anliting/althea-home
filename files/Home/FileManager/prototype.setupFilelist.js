@@ -55,7 +55,13 @@
                 file.isDirectory
             ))
         })
-        fileManager.div.ul=createUl()
+        fileManager.filelist=fileManager.files.concat(
+            fileManager.fileuploadings
+        )
+        fileManager.filelist.sort((a,b)=>{
+            return a.name.localeCompare(b.name)
+        })
+        fileManager.div.ul=createUl(fileManager,fileManager.filelist)
         fileManager.div.appendChild(fileManager.div.ul)
         {
             let toDoAgain=fileManager.setupFilelistStatus==2
@@ -65,17 +71,9 @@
             fileManager.purgeFilelist()
             fileManager.setupFilelist()
         }
-        function createUl(){
-            let
-                ul=document.createElement('ul'),
-                files
-            fileManager.filelist=fileManager.files.concat(
-                fileManager.fileuploadings
-            )
-            fileManager.filelist.sort((a,b)=>{
-                return a.name.localeCompare(b.name)
-            })
-            fileManager.filelist.map((file,index)=>{
+        function createUl(fileManager,a){
+            let ul=document.createElement('ul')
+            a.map((file,index)=>{
                 file.setupLi()
                 file.li.onclick=()=>{
                     fileManager.focusOn(index)

@@ -1,13 +1,15 @@
-Promise.all([
-    module.repository.althea.site,
-    module.repository.npm.path,
-    module.repository.althea.EventEmmiter,
-    module.shareImport('File/prototype.beRenamed.js'),
-]).then(modules=>{
-    let
-        site=           modules[0],
-        path=           modules[1],
-        EventEmmiter=   modules[2]
+(async()=>{
+    let[
+        site,
+        path,
+        EventEmmiter,
+        beRenamed,
+    ]=await Promise.all([
+        module.repository.althea.site,
+        module.repository.npm.path,
+        module.repository.althea.EventEmmiter,
+        module.shareImport('File/prototype.beRenamed.js'),
+    ])
     function File(name,isDirectory){
         EventEmmiter.call(this)
         this.name=name
@@ -76,6 +78,6 @@ Promise.all([
             return p<0?null:s.substring(p)
         }
     }
-    File.prototype.beRenamed=modules[3]
+    File.prototype.beRenamed=beRenamed
     return File
-})
+})()
