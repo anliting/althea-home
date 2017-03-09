@@ -26,62 +26,57 @@
     }})
     File.prototype.beRenamed=beRenamed
     function Ui(file){
-        this.li=createLi()
-        function createLi(){
-            let li=document.createElement('li')
-            li.onclick=()=>{
-                file.emit('click')
-            }
-            li.ondblclick=()=>{
-                file.execute()
-            }
-            li.appendChild(createA())
-            if(getExtension(file.name)=='mp3'){
-                li.appendChild(document.createTextNode(' '))
-                li.appendChild(createAAudio())
-            }
-            return li
+        this.li=createLi(file)
+    }
+    function createLi(file){
+        let li=document.createElement('li')
+        li.onclick=()=>
+            file.emit('click')
+        li.appendChild(createA(file))
+        if(getExtension(file.name)=='mp3'){
+            li.appendChild(document.createTextNode(' '))
+            li.appendChild(createAAudio(file))
         }
-        function createA(){
-            let a=document.createElement('a')
-            a.href=file.href
-            a.onclick=e=>{
-                e.stopPropagation()
-                if(e.which!=1)
-                    return
-                e.preventDefault()
-                file.execute()
-            }
-            a.textContent=file.name+(file.isDirectory?'/':'')
-            return a
+        return li
+    }
+    function createA(file){
+        let a=document.createElement('a')
+        a.href=file.href
+        a.onclick=e=>{
+            e.stopPropagation()
+            if(e.which!=1)
+                return
+            e.preventDefault()
+            file.execute()
         }
-        function createAAudio(){
-            let
-                state=0,
-                a=document.createElement('a')
-            a.href='javascript:'
-            a.onclick=e=>{
-                e.stopPropagation()
-                if(state==0){
-                    state=1
-                    file.emit('startAudio',file.href)
-                    a.textContent='(stop)'
-                }else if(state==1){
-                    state=0
-                    file.emit('endAudio',file.href)
-                    a.textContent='(play)'
-                }
+        a.textContent=file.name+(file.isDirectory?'/':'')
+        return a
+    }
+    function createAAudio(file){
+        let
+            state=0,
+            a=document.createElement('a')
+        a.href='javascript:'
+        a.onclick=e=>{
+            e.stopPropagation()
+            if(state==0){
+                state=1
+                file.emit('startAudio',file.href)
+                a.textContent='(stop)'
+            }else if(state==1){
+                state=0
+                file.emit('endAudio',file.href)
+                a.textContent='(play)'
             }
-            a.ondblclick=e=>{
-                e.stopPropagation()
-            }
-            a.textContent='(play)'
-            return a
         }
-        function getExtension(s){
-            let p=s.lastIndexOf('.')+1
-            return p<0?null:s.substring(p)
-        }
+        a.ondblclick=e=>
+            e.stopPropagation()
+        a.textContent='(play)'
+        return a
+    }
+    function getExtension(s){
+        let p=s.lastIndexOf('.')+1
+        return p<0?null:s.substring(p)
     }
     return File
 })()

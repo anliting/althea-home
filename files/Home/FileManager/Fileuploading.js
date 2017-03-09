@@ -43,6 +43,15 @@ Fileuploading.prototype.showLoaded=function(){
             ''
     })`
 }
+Object.defineProperty(Fileuploading.prototype,'ui',{get(){
+    if(this._ui)
+        return this._ui
+    return this._ui=new Ui(this)
+}})
+function Ui(fileuploading){
+    fileuploading.setupLi()
+    this.li=fileuploading.li
+}
 Fileuploading.prototype.setupLi=function(){
     let fileuploading=this
     this.li=createLi()
