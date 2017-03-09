@@ -20,6 +20,9 @@
         EventEmmiter.call(this)
         this.pendingRequest=[]
         this.audioPlayer=new AudioPlayer
+        this.fileuploadings=[]
+        this.setupFilelistStatus=0
+        this.div=this.ui.node
     }
     Object.setPrototypeOf(FileManager.prototype,EventEmmiter.prototype)
     Object.defineProperty(FileManager.prototype,'directory',{set(pth){
@@ -32,15 +35,8 @@
         return this._directory
     }})
     FileManager.prototype._directoryChange=function(){
-        if(!this.div){
-            this.fileuploadings=[]
-            this.div=this.ui.node
-            this.setupFilelistStatus=0
-            this.setupFilelist()
-        }else{
-            this.purgeFilelist()
-            this.setupFilelist()
-        }
+        this.purgeFilelist()
+        this.setupFilelist()
     }
     FileManager.prototype.setupFilelist=setupFilelist
     FileManager.prototype.purgeFilelist=function(){
