@@ -22,7 +22,7 @@
         this.audioPlayer=new AudioPlayer
         this.fileuploadings=[]
         this.setupFilelistStatus=0
-        this.div=this.ui.node
+        //this.div=this.ui.node
     }
     Object.setPrototypeOf(FileManager.prototype,EventEmmiter.prototype)
     Object.defineProperty(FileManager.prototype,'directory',{set(pth){
@@ -41,13 +41,16 @@
     FileManager.prototype.setupFilelist=setupFilelist
     FileManager.prototype.purgeFilelist=function(){
         this.focus=undefined
-        this.div.innerHTML=''
+        this.ui.node.innerHTML=''
     }
     FileManager.prototype.focusOn=function(id){
         if(this.focus!=undefined)
             this.filelist[this.focus].ui.li.style.backgroundColor=''
         this.focus=id
         this.filelist[this.focus].ui.li.style.backgroundColor='lightgray'
+    }
+    FileManager.prototype.beFocused=function(){
+        this.ui.node.focus()
     }
     Object.defineProperty(FileManager.prototype,'ui',{get(){
         if(this._ui)
@@ -96,7 +99,7 @@
     })
     FileManager.prototype._rename=async function(f,name){
         await this.rename(f,name)
-        this.div.focus()
+        this.ui.node.focus()
         this.purgeFilelist()
         this.setupFilelist()
     }

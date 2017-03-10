@@ -24,7 +24,7 @@
             if(fileManager.audioPlayer.audio)
                 fileManager.audioPlayer.end()
             fileManager.audioPlayer.start(f.href)
-            fileManager.div.appendChild(fileManager.audioPlayer.audio)
+            fileManager.ui.node.appendChild(fileManager.audioPlayer.audio)
         })
         f.on('endAudio',()=>{
             fileManager.audioPlayer.end()
@@ -61,8 +61,8 @@
         fileManager.filelist.sort((a,b)=>{
             return a.name.localeCompare(b.name)
         })
-        fileManager.div.ul=createUl(fileManager,fileManager.filelist)
-        fileManager.div.appendChild(fileManager.div.ul)
+        fileManager.ui.ul=createUl(fileManager,fileManager.filelist)
+        fileManager.ui.node.appendChild(fileManager.ui.ul)
         {
             let toDoAgain=fileManager.setupFilelistStatus==2
             fileManager.setupFilelistStatus=0

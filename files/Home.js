@@ -32,6 +32,9 @@
         fm.send=a=>home.send(a)
         return fm
     }
+    Home.prototype.focus=function(){
+        this.fm.beFocused()
+    }
     Home.prototype.send=async function(a){
         return(await this._site).send(a)
     }

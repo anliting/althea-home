@@ -33,7 +33,7 @@ module.importByPath('lib/general.js',{mode:1}).then(async general=>{
     style=await style
     document.head.appendChild(style)
     document.body.appendChild(home.ui)
-    home.fm.div.focus()
+    home.focus()
     function changeHistory(method,directory){
         history[method](
             {directory},
