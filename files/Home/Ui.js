@@ -7,6 +7,12 @@ function createNode(ui){
     n.appendChild(ui.div)
     return n
 }
+Ui.prototype.appendLeftChild=function(n){
+    this.leftDiv.appendChild(n)
+}
+Ui.prototype.appendRightChild=function(n){
+    this.rightDiv.appendChild(n)
+}
 function createDiv(ui){
     let div=document.createElement('div')
     div.style.display='table'
@@ -35,12 +41,6 @@ function createDiv(ui){
         }
     }
     return div
-}
-Ui.prototype.appendLeftChild=function(n){
-    this.leftDiv.appendChild(n)
-}
-Ui.prototype.appendRightChild=function(n){
-    this.rightDiv.appendChild(n)
 }
 function createTc(ui){
     let ended=false,p

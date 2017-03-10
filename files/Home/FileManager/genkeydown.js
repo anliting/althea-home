@@ -55,9 +55,7 @@
     }else if(e.keyCode==79){ // o
         e.preventDefault()
         let li=createLi()
-        fileManager.div.ul.appendChild(
-            li
-        )
+        fileManager.ui.ul.appendChild(li)
         li.firstChild.select()
     }
     function createLi(){
@@ -76,7 +74,7 @@
                     input.selectionStart==input.selectionEnd
             ){
                 input.parentNode.remove(input)
-                fileManager.div.focus()
+                fileManager.ui.focus()
                 fileManager.mkdir(input.value).then(()=>{
                     fileManager.purgeFilelist()
                     fileManager.setupFilelist()

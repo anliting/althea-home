@@ -1,6 +1,9 @@
 function Ui(){
     this.node=createNode(this)
 }
+Ui.prototype.focus=function(){
+    this.node.focus()
+}
 function createNode(ui){
     let n=document.createElement('div')
     n.tabIndex=0
