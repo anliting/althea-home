@@ -34,6 +34,7 @@
         return this._directory
     }})
     FileManager.prototype._directoryChange=function(){
+        this.emit('directoryChange')
         this.purgeFilelist()
         this.setupFilelist()
     }

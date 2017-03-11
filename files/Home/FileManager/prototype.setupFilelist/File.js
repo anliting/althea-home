@@ -30,12 +30,14 @@
     }
     function createLi(file){
         let li=document.createElement('li')
-        li.onclick=()=>
-            file.emit('click')
+        li.onclick=()=>file.emit('click')
+        li.ondblclick=()=>file.execute()
         li.appendChild(createA(file))
         if(getExtension(file.name)=='mp3'){
+            let a=createAAudio(file)
+            a.ondblclick=e=>e.stopPropagation()
             li.appendChild(document.createTextNode(' '))
-            li.appendChild(createAAudio(file))
+            li.appendChild(a)
         }
         return li
     }
@@ -69,8 +71,6 @@
                 a.textContent='(play)'
             }
         }
-        a.ondblclick=e=>
-            e.stopPropagation()
         a.textContent='(play)'
         return a
     }
