@@ -40,7 +40,7 @@
     FileManager.prototype.setupFilelist=setupFilelist
     FileManager.prototype.purgeFilelist=function(){
         this.focus=undefined
-        this.ui.node.innerHTML=''
+        this.ui.purgeFilelist()
     }
     FileManager.prototype.focusOn=function(id){
         if(this.focus!=undefined)
@@ -70,17 +70,13 @@
             })
             update()
         }
-        this._ui=new Ui
-        this._ui.node.addEventListener('keydown',genkeydown(this))
-        this._ui.drop=e=>{
-            for(let i=0;i<e.dataTransfer.files.length;i++){
-                sendfile(e.dataTransfer.files[i],()=>{
-                    this.purgeFilelist()
-                    this.setupFilelist()
-                })
-            }
-        }
-        return this._ui
+        let ui=new Ui
+        ui.node.addEventListener('keydown',genkeydown(this))
+        ui.sendFile=f=>sendfile(f,()=>{
+            this.purgeFilelist()
+            this.setupFilelist()
+        })
+        return this._ui=ui
     }})
     Object.defineProperty(FileManager.prototype,'send',{
         configurable:true,

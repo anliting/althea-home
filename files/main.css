@@ -1,3 +1,6 @@
 a:active,a:link,a:hover,a:visited{
     color:blue;
 }
+button{
+    padding:4px;
+}
