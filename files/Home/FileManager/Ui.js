@@ -1,5 +1,8 @@
 (async()=>{
-    let browser=await module.repository.althea.browser
+    let[browser,dom]=await Promise.all([
+        module.repository.althea.browser,
+        module.repository.althea.dom,
+    ])
     function Ui(){
         this.node=createNode(this)
     }
@@ -44,8 +47,13 @@
                 n.appendChild(dropDiv)
             }
         })
-        if(browser.isMobile)
-            n.appendChild(createFileButton(ui))
+        if(browser.isMobile){
+            let fb=dom.createFileButton()
+            fb.on('file',a=>
+                ui._sendFiles(a)
+            )
+            n.appendChild(fb.n)
+        }
         return n
         function removeDropDiv(){
             if(!dropDiv)
@@ -60,21 +68,6 @@
         n.style.top='0'
         n.style.width='100%'
         n.style.height='100%'
-        return n
-    }
-    function createFileButton(ui){
-        let n=document.createElement('button')
-        n.textContent='Upload'
-        n.onclick=e=>{
-            let o=createFileInput(ui)
-            o.click()
-        }
-        return n
-    }
-    function createFileInput(ui){
-        let n=document.createElement('input')
-        n.type='file'
-        n.onchange=e=>ui._sendFiles(n.files)
         return n
     }
     return Ui
