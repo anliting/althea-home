@@ -1,5 +1,17 @@
+let fs=require('mz/fs')
 module.exports=althea=>{
-    althea.addPagemodule('home',pagemodule)
+   althea.addPagemodule(async env=>{
+        let pathname=env.analyze.request.parsedUrl.pathname
+        return /\/home/.test(pathname)&&
+            await isDirectory(`usersFiles${decodeURI(pathname)}`)
+        async function isDirectory(path){
+            try{
+                return(await fs.stat(path)).isDirectory()
+            }catch(e){
+                return false
+            }
+        }
+    },pagemodule)
 }
 function pagemodule(env){
     if(!env.althea.allowOrigin(env.envVars,env.request.headers.origin))
