@@ -1,6 +1,6 @@
 (function(type){
     let input=createInput(this)
-    this.li.innerHTML=''
+    this.ui.li.innerHTML=''
     let p=new Promise(rs=>{
         input.onkeydown=e=>{
             e.stopPropagation()
@@ -15,7 +15,7 @@
         }
     })
     input.style.width='-webkit-fill-available'
-    this.li.appendChild(input)
+    this.ui.li.appendChild(input)
     input.focus()
     if(type=='insert')
         input.setSelectionRange(0,0)
