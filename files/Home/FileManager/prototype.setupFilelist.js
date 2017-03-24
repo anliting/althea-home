@@ -1,9 +1,11 @@
 ;(async()=>{
     let[
+        dom,
         path,
         File,
         site,
     ]=await Promise.all([
+        module.repository.althea.dom,
         module.repository.npm.path,
         module.shareImport('prototype.setupFilelist/File.js'),
         module.repository.althea.site,
@@ -72,13 +74,11 @@
             fileManager.setupFilelist()
         }
         function createUl(fileManager,a){
-            let ul=document.createElement('ul')
-            a.map((file,index)=>{
+            return dom.ul(a.map((file,index)=>{
                 let li=file.ui.li
                 li.onclick=()=>fileManager.focusOn(index)
-                ul.appendChild(li)
-            })
-            return ul
+                return li
+            }))
         }
     }
 })()

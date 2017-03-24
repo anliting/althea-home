@@ -1,10 +1,12 @@
 (async()=>{
     let[
+        dom,
         site,
         path,
         EventEmmiter,
         beRenamed,
     ]=await Promise.all([
+        module.repository.althea.dom,
         module.repository.althea.site,
         module.repository.npm.path,
         module.repository.althea.EventEmmiter,
@@ -29,20 +31,19 @@
         this.li=createLi(file)
     }
     function createLi(file){
-        let li=document.createElement('li')
+        let li=dom.li(createA(file),()=>{
+            if(getExtension(file.name)=='mp3'){
+                let a=createAAudio(file)
+                a.ondblclick=e=>e.stopPropagation()
+                return['',a]
+            }
+        })
         li.onclick=()=>file.emit('click')
         li.ondblclick=()=>file.execute()
-        li.appendChild(createA(file))
-        if(getExtension(file.name)=='mp3'){
-            let a=createAAudio(file)
-            a.ondblclick=e=>e.stopPropagation()
-            li.appendChild(document.createTextNode(' '))
-            li.appendChild(a)
-        }
         return li
     }
     function createA(file){
-        let a=document.createElement('a')
+        let a=dom.a(file.name+(file.isDirectory?'/':''))
         a.href=file.href
         a.onclick=e=>{
             e.stopPropagation()
@@ -51,13 +52,12 @@
             e.preventDefault()
             file.execute()
         }
-        a.textContent=file.name+(file.isDirectory?'/':'')
         return a
     }
     function createAAudio(file){
         let
             state=0,
-            a=document.createElement('a')
+            a=dom.a('(play)')
         a.href='javascript:'
         a.onclick=e=>{
             e.stopPropagation()
@@ -71,7 +71,6 @@
                 a.textContent='(play)'
             }
         }
-        a.textContent='(play)'
         return a
     }
     function getExtension(s){

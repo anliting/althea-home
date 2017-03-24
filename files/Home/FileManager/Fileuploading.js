@@ -56,22 +56,19 @@ Fileuploading.prototype.setupLi=function(){
     let fileuploading=this
     this.li=createLi()
     function createLi(){
-        let li=document.createElement('li')
+        let li=dom.li(createDiv(),createSpan())
         li.style.position='relative'
         li.style.border='1px solid black'
-        li.appendChild(createDiv())
-        li.appendChild(createSpan())
         return li
     }
     function createSpan(){
-        fileuploading.span=document.createElement('span')
+        fileuploading.span=dom.span(fileuploading.name)
         fileuploading.span.style.position='absolute'
         fileuploading.span.style.top='0px'
-        fileuploading.span.textContent=fileuploading.name
         return fileuploading.span
     }
     function createDiv(){
-        fileuploading.div=document.createElement('div')
+        fileuploading.div=dom.div()
         fileuploading.div.style.position='absolute'
         fileuploading.div.style.top='0px'
         fileuploading.div.style.height='100%'
