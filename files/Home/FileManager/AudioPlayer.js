@@ -3,7 +3,7 @@ function AudioPlayer(){
 AudioPlayer.prototype.start=function(src){
     this.audio=createAudio(src)
     function createAudio(src){
-        let a=dom.audio()
+        let a=dom('audio')
         a.src=src
         a.autoplay=true
         return a

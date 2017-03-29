@@ -28,7 +28,7 @@
             )
         return p
         function createInput(file){
-            let input=dom.input()
+            let input=dom('input')
             input.value=file.name
             return input
         }

@@ -20,7 +20,7 @@
             this.sendFile(c[i])
     }
     function createNode(ui){
-        let n=dom.div()
+        let n=dom('div')
         n.tabIndex=0
         n.style.outline='none'
         n.style.position='relative'
@@ -63,7 +63,7 @@
         }
     }
     function createDropDiv(){
-        let n=dom.div()
+        let n=dom('div')
         n.style.position='absolute'
         n.style.top='0'
         n.style.width='100%'

@@ -31,7 +31,7 @@
         this.li=createLi(file)
     }
     function createLi(file){
-        let li=dom.li(createA(file),()=>{
+        let li=dom('li',createA(file),()=>{
             if(getExtension(file.name)=='mp3'){
                 let a=createAAudio(file)
                 a.ondblclick=e=>e.stopPropagation()
@@ -43,7 +43,7 @@
         return li
     }
     function createA(file){
-        let a=dom.a(file.name+(file.isDirectory?'/':''))
+        let a=dom('a',file.name+(file.isDirectory?'/':''))
         a.href=file.href
         a.onclick=e=>{
             e.stopPropagation()
@@ -57,7 +57,7 @@
     function createAAudio(file){
         let
             state=0,
-            a=dom.a('(play)')
+            a=dom('a','(play)')
         a.href='javascript:'
         a.onclick=e=>{
             e.stopPropagation()

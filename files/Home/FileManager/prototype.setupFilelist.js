@@ -74,7 +74,7 @@
             fileManager.setupFilelist()
         }
         function createUl(fileManager,a){
-            return dom.ul(a.map((file,index)=>{
+            return dom('ul',a.map((file,index)=>{
                 let li=file.ui.li
                 li.onclick=()=>fileManager.focusOn(index)
                 return li

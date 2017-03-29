@@ -61,10 +61,10 @@
             li.firstChild.select()
         }
         function createLi(){
-            return dom.li(createInput())
+            return dom('li',createInput())
         }
         function createInput(){
-            let input=dom.input()
+            let input=dom('input')
             input.style.width='-webkit-fill-available'
             input.onkeydown=e=>{
                 e.stopPropagation()
