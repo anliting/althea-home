@@ -11,5 +11,5 @@
         )
         delete this.audio
     }
-    AudioPlayer
+    return AudioPlayer
 })()
