@@ -1,6 +1,20 @@
-let fs=require('mz/fs')
+let
+    fs=require('mz/fs'),
+    createDirectory=            require('./server/createDirectory'),
+    getDiskSpace=               require('./server/getDiskSpace'),
+    renameFile=                 require('./server/renameFile'),
+    getDirectoryInformation=    require('./server/getDirectoryInformation'),
+    remove=                     require('./server/remove')
 module.exports=althea=>{
-   althea.addPagemodule(async env=>{
+    althea.addQueryFunction('createDirectory',createDirectory)
+    althea.addQueryFunction('getDiskSpace',getDiskSpace)
+    althea.addQueryFunction('renameFile',renameFile)
+    althea.addQueryFunction(
+        'getDirectoryInformation',
+        getDirectoryInformation
+    )
+    althea.addQueryFunction('remove',remove)
+    althea.addPagemodule(async env=>{
         let pathname=env.analyze.request.parsedUrl.pathname
         return /\/home/.test(pathname)&&
             await isDirectory(`usersFiles${decodeURI(pathname)}`)
