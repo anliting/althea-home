@@ -5,7 +5,7 @@ let
     renameFile=                 require('./server/renameFile'),
     getDirectoryInformation=    require('./server/getDirectoryInformation'),
     remove=                     require('./server/remove')
-module.exports=althea=>{
+module.exports=function(althea){
     althea.addQueryFunction('createDirectory',createDirectory)
     althea.addQueryFunction('getDiskSpace',getDiskSpace)
     althea.addQueryFunction('renameFile',renameFile)
