@@ -1,6 +1,6 @@
-let style=module.styleByPath('plugins/althea-home/main.css')
-module.importByPath('lib/general.js',{mode:1}).then(async general=>{
-    general(module)
+;(async()=>{
+    let style=module.styleByPath('plugins/althea-home/main.css')
+    ;(await module.importByPath('lib/general.js',{mode:1}))(module)
     let
         [
             path,
@@ -42,4 +42,4 @@ module.importByPath('lib/general.js',{mode:1}).then(async general=>{
         )
         document.title=directory
     }
-})
+})()
