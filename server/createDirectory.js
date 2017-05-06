@@ -1,7 +1,7 @@
 let
     fs=require('fs'),
     path=require('path')
-module.exports=function(args,env){
+module.exports=async(args,env)=>{
     let pathToTarget=`${env.config.pathToUsersFiles}/home/${args.path}`
     if(!(
         env.currentUser.isadmin&&
@@ -10,7 +10,7 @@ module.exports=function(args,env){
         ).substring(0,2)!='..'
     ))
         return
-    return mkdir(pathToTarget).catch(e=>{
+    await mkdir(pathToTarget).catch(e=>{
         if(
             e.code=='EEXIST'||
             e.code=='ENOENT'
@@ -18,6 +18,7 @@ module.exports=function(args,env){
             return
         throw e
     })
+    return null
 }
 function mkdir(path){
     return new Promise((rs,rj)=>
