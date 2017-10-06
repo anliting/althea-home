@@ -3,7 +3,7 @@
         FileManager,
         Ui,
     ]=await Promise.all([
-        module.shareImport('Home/FileManager.js'),
+        module.module('Home/FileManager.js'),
         module.shareImport('Home/Ui.js'),
     ])
     function Home(site,directory){
