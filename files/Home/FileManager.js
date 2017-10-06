@@ -8,9 +8,9 @@
         AudioPlayer,
         Ui,
     ]=await Promise.all([
-        module.repository.npm.path,
+        module.repository.althea.path,
         module.repository.althea.EventEmmiter,
-        module.shareImport('FileManager/prototype.setupFilelist.js'),
+        module.module('FileManager/prototype.setupFilelist.js'),
         module.shareImport('FileManager/genkeydown.js'),
         module.shareImport('FileManager/Fileuploading.js'),
         module.shareImport('FileManager/AudioPlayer.js'),

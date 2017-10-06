@@ -6,11 +6,11 @@
             path,
             Home
         ]=await Promise.all([
-            module.repository.npm.path,
+            module.repository.althea.path,
             module.shareImport('Home.js'),
         ]),
         directory=path.normalize(
-            decodeURI(location.pathname).match(/\/home\/?(.*)/)[1]
+            decodeURIComponent(location.pathname).match(/\/home\/?(.*)/)[1]
         ),
         home=new Home(module.repository.althea.site,directory),
         listenToDirectoryChange=true
