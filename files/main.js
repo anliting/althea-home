@@ -7,7 +7,7 @@
             Home
         ]=await Promise.all([
             module.repository.althea.path,
-            module.shareImport('Home.js'),
+            module.module('Home.js'),
         ]),
         directory=path.normalize(
             decodeURIComponent(location.pathname).match(/\/home\/?(.*)/)[1]
