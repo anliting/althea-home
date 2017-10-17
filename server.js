@@ -51,7 +51,7 @@ function get(env){
 <body>
 <script src=${
     env.environmentvariables.moduleUrl
-} data-main=plugins/althea-home/main.js async></script>
+} data-main=plugins/althea-home/main.static.js async></script>
         `
     }
 }

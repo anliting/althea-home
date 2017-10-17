@@ -1,4 +1,4 @@
-import dom from '/lib/tools/dom.js'
+import{dom}from '/lib/core.static.js'
 function Fileuploading(directory,name,rawfile){
     this.directory=directory
     this.name=name

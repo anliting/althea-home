@@ -1,5 +1,4 @@
-import dom from '/lib/tools/dom.js'
-import path from '/lib/tools/path.mjs'
+import{dom,path}from '/lib/core.static.js'
 import site from '/lib/site.js'
 import File from './prototype.setupFilelist/File.js'
 function createFile(fileManager,name,isDirectory){

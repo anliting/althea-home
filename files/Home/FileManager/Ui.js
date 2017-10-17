@@ -1,5 +1,4 @@
-import browser from '/lib/tools/browser.js'
-import dom from '/lib/tools/dom.js'
+import{browser,dom}from '/lib/core.static.js'
 function Ui(){
     this.node=createNode(this)
 }

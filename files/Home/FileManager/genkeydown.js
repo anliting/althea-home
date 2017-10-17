@@ -1,4 +1,4 @@
-import dom from '/lib/tools/dom.js'
+import{dom}from '/lib/core.static.js'
 export default fileManager=>e=>{
     if(e.keyCode==35){ // end
         e.preventDefault()

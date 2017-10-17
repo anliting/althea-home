@@ -1,4 +1,4 @@
-import dom from '/lib/tools/dom.js'
+import{dom}from '/lib/core.static.js'
 export default function(type){
     let input=createInput(this)
     this.ui.li.innerHTML=''
