@@ -1,12 +1,7 @@
 let
     rollup=require('rollup'),
     skip=[
-        '/lib/arg.js',
         '/lib/core.static.js',
-        '/lib/site.js',
-        '/lib/tools/browser.js',
-        '/lib/tools/dom.js',
-        '/lib/tools/uri.js',
         'https://gitcdn.link/cdn/anliting/simple.js/99b7ab1b872bc2da746dd648dd0c078b3bc6961e/src/simple/EventEmmiter.js',
     ]
 async function link(input,file,skip=[]){

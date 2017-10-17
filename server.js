@@ -49,9 +49,10 @@ function get(env){
 <base href=${env.config.root}>
 <meta name=viewport content='width=device-width,initial-scale=1'>
 <body>
-<script src=${
-    env.environmentvariables.moduleUrl
-} data-main=plugins/althea-home/main.static.js async></script>
+${env.althea.loadModule(
+    env.envVars,
+    'plugins/althea-home/main.static.js'
+)}
         `
     }
 }

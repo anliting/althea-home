@@ -1,5 +1,4 @@
-import dom from '/lib/tools/dom.js'
-import site from '/lib/site.js'
+import{dom}from '/lib/core.static.js'
 import EventEmmiter from 'https://gitcdn.link/cdn/anliting/simple.js/99b7ab1b872bc2da746dd648dd0c078b3bc6961e/src/simple/EventEmmiter.js'
 import beRenamed from './File/prototype.beRenamed.js'
 function File(name,isDirectory){

@@ -1,4 +1,4 @@
-import path from '/lib/tools/path.mjs'
+import{path}from '/lib/core.static.js'
 import EventEmmiter from 'https://gitcdn.link/cdn/anliting/simple.js/99b7ab1b872bc2da746dd648dd0c078b3bc6961e/src/simple/EventEmmiter.js'
 import setupFilelist from './FileManager/prototype.setupFilelist.js'
 import genkeydown from './FileManager/genkeydown.js'

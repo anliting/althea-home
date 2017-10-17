@@ -23,6 +23,13 @@ function createFM(home,directory){
             path:`${fm.directory}/${name}`,
         })
     }
+    fm.remove=async path=>{
+        let site=await home._site
+        return site.send({
+            function:'remove',
+            path,
+        })
+    }
     fm.send=a=>home.send(a)
     return fm
 }

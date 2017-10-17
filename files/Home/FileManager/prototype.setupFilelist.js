@@ -1,5 +1,4 @@
 import{dom,path}from '/lib/core.static.js'
-import site from '/lib/site.js'
 import File from './prototype.setupFilelist/File.js'
 function createFile(fileManager,name,isDirectory){
     let f=new File(name,isDirectory)
@@ -23,10 +22,7 @@ function createFile(fileManager,name,isDirectory){
         fileManager.audioPlayer.end()
     })
     f.beRemoved=function(){
-        return site.send({
-            function:'remove',
-            path:`${fileManager.directory}/${f.name}`,
-        })
+        this.remove(`${fileManager.directory}/${f.name}`)
     }
     return f
 }
