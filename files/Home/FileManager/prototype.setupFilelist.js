@@ -21,9 +21,8 @@ function createFile(fileManager,name,isDirectory){
     f.on('endAudio',()=>{
         fileManager.audioPlayer.end()
     })
-    f.beRemoved=function(){
-        this.remove(`${fileManager.directory}/${f.name}`)
-    }
+    f.beRemoved=()=>
+        fileManager.remove(`${fileManager.directory}/${f.name}`)
     return f
 }
 export default async function(){

@@ -11,17 +11,19 @@ export default fileManager=>e=>{
         if(fileManager.focus==undefined)
             return
         let f=fileManager.filelist[fileManager.focus]
-        f.beRenamed('append').then(name=>{
+        ;(async()=>{
+            let name=await f.beRenamed('append')
             fileManager._rename(f,name)
-        })
+        })()
     }else if(e.keyCode==68||e.keyCode==46){ // d
         e.preventDefault()
         if(fileManager.focus==undefined)
             return
-        fileManager.filelist[fileManager.focus].beRemoved().then(()=>{
+        ;(async()=>{
+            await fileManager.filelist[fileManager.focus].beRemoved()
             fileManager.purgeFilelist()
             fileManager.setupFilelist()
-        })
+        })()
     }else if(e.keyCode==71){ // g
         e.preventDefault()
         fileManager.focusOn(e.shiftKey?fileManager.filelist.length-1:0)
@@ -33,9 +35,10 @@ export default fileManager=>e=>{
         if(fileManager.focus==undefined)
             return
         let f=fileManager.filelist[fileManager.focus]
-        f.beRenamed('insert').then(name=>{
+        ;(async()=>{
+            let name=await f.beRenamed('insert')
             fileManager._rename(f,name)
-        })
+        })()
     }else if(e.keyCode==74){ // j
         e.preventDefault()
         if(fileManager.focus==undefined)
@@ -74,10 +77,11 @@ export default fileManager=>e=>{
             ){
                 input.parentNode.remove(input)
                 fileManager.ui.focus()
-                fileManager.mkdir(input.value).then(()=>{
+                ;(async()=>{
+                    await fileManager.mkdir(input.value)
                     fileManager.purgeFilelist()
                     fileManager.setupFilelist()
-                })
+                })()
             }
         }
         return input

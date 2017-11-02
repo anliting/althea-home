@@ -50,7 +50,11 @@ function get(env){
 <meta name=viewport content='width=device-width,initial-scale=1'>
 <body>
 ${env.althea.loadModule(
-    'plugins/althea-home/main.static.js'
+    //'plugins/althea-home/main.js',
+    'plugins/althea-home/main.static.js',
+    null,{
+        sharedWorker:1,
+    }
 )}
         `
     }

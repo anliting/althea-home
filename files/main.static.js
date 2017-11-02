@@ -127,9 +127,8 @@ function createFile(fileManager,name,isDirectory){
     f.on('endAudio',()=>{
         fileManager.audioPlayer.end();
     });
-    f.beRemoved=function(){
-        this.remove(`${fileManager.directory}/${f.name}`);
-    };
+    f.beRemoved=()=>
+        fileManager.remove(`${fileManager.directory}/${f.name}`);
     return f
 }
 var setupFilelist = async function(){
@@ -186,18 +185,19 @@ var genkeydown = fileManager=>e=>{
         e.preventDefault();
         if(fileManager.focus==undefined)
             return
-        let f=fileManager.filelist[fileManager.focus];
-        f.beRenamed('append').then(name=>{
+        let f=fileManager.filelist[fileManager.focus];(async()=>{
+            let name=await f.beRenamed('append');
             fileManager._rename(f,name);
-        });
+        })();
     }else if(e.keyCode==68||e.keyCode==46){ // d
         e.preventDefault();
         if(fileManager.focus==undefined)
             return
-        fileManager.filelist[fileManager.focus].beRemoved().then(()=>{
+        ;(async()=>{
+            await fileManager.filelist[fileManager.focus].beRemoved();
             fileManager.purgeFilelist();
             fileManager.setupFilelist();
-        });
+        })();
     }else if(e.keyCode==71){ // g
         e.preventDefault();
         fileManager.focusOn(e.shiftKey?fileManager.filelist.length-1:0);
@@ -208,10 +208,10 @@ var genkeydown = fileManager=>e=>{
         e.preventDefault();
         if(fileManager.focus==undefined)
             return
-        let f=fileManager.filelist[fileManager.focus];
-        f.beRenamed('insert').then(name=>{
+        let f=fileManager.filelist[fileManager.focus];(async()=>{
+            let name=await f.beRenamed('insert');
             fileManager._rename(f,name);
-        });
+        })();
     }else if(e.keyCode==74){ // j
         e.preventDefault();
         if(fileManager.focus==undefined)
@@ -249,11 +249,12 @@ var genkeydown = fileManager=>e=>{
                     input.selectionStart==input.selectionEnd
             ){
                 input.parentNode.remove(input);
-                fileManager.ui.focus();
-                fileManager.mkdir(input.value).then(()=>{
+                fileManager.ui.focus()
+                ;(async()=>{
+                    await fileManager.mkdir(input.value);
                     fileManager.purgeFilelist();
                     fileManager.setupFilelist();
-                });
+                })();
             }
         };
         return input
