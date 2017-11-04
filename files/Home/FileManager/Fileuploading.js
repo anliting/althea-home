@@ -100,7 +100,7 @@ Fileuploading.prototype.send=function(){
                     total:e.total,
                 }
         }
-        request.open('POST','api')
+        request.open('POST','_api')
         formdata.append('function','uploadFile')
         formdata.append('directory',this.directory)
         formdata.append('file',this.rawfile)
