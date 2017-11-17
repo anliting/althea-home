@@ -1,5 +1,5 @@
 import{dom}from '/lib/core.static.js'
-import EventEmmiter from 'https://gitcdn.link/cdn/anliting/simple.js/99b7ab1b872bc2da746dd648dd0c078b3bc6961e/src/simple/EventEmmiter.js'
+import EventEmmiter from 'https://gitcdn.link/cdn/anliting/simple.js/eae977ecf2a856ecb072259aa63b003d186ba618/src/simple/EventEmmiter.js'
 import beRenamed from './File/prototype.beRenamed.js'
 function File(name,isDirectory){
     EventEmmiter.call(this)
