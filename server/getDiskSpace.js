@@ -1,8 +1,7 @@
 let
     diskspace=require('diskspace')
 module.exports=(args,env)=>{
-    if(!env.currentUser.isadmin)
-        return
+    env.currentUser.isadmin||0()
     return diskSpace()
 }
 function diskSpace(){

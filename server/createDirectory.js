@@ -1,15 +1,17 @@
 let
     fs=require('fs'),
     path=require('path')
-module.exports=async(args,env)=>{
-    let pathToTarget=`${env.config.pathToUsersFiles}/home/${args.path}`
-    if(!(
-        env.currentUser.isadmin&&
-        path.normalize(
-            path.relative(`${env.config.pathToUsersFiles}/home`,pathToTarget)
-        ).substring(0,2)!='..'
-    ))
-        return
+module.exports=async(opt,env)=>{
+    opt instanceof Object&&
+    typeof opt.path=='string'||0()
+    let pathToTarget=`${env.config.pathToUsersFiles}/home/${opt.path}`
+    env.currentUser.isadmin&&
+    path.normalize(
+        path.relative(
+            `${env.config.pathToUsersFiles}/home`,
+            pathToTarget
+        )
+    ).substring(0,2)!='..'||0()
     await mkdir(pathToTarget).catch(e=>{
         if(
             e.code=='EEXIST'||

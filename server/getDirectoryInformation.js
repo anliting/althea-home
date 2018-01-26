@@ -1,17 +1,15 @@
 let
     fs=require('fs'),
     path=require('path')
-module.exports=(options,env)=>{
+module.exports=(opt,env)=>{
+    opt instanceof Object&&
+    typeof opt.path=='string'||0()
     let currentUser=env.currentUser
-    let
-        pathToTarget=`${env.config.pathToUsersFiles}/home/`+options.path
-    if(!(
-        currentUser.isadmin&&
-        path.normalize(
-            path.relative(`${env.config.pathToUsersFiles}/home`,pathToTarget)
-        ).substring(0,2)!='..'
-    ))
-        return
+    let pathToTarget=`${env.config.pathToUsersFiles}/home/`+opt.path
+    currentUser.isadmin&&
+    path.normalize(
+        path.relative(`${env.config.pathToUsersFiles}/home`,pathToTarget)
+    ).substring(0,2)!='..'||0()
     return new Promise((rs,rj)=>{
         fs.readdir(pathToTarget,(err,files)=>{
             if(err)
