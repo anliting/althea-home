@@ -6,12 +6,12 @@ module.exports=(args,env)=>{
 }
 function diskSpace(){
     return new Promise((rs,rj)=>{
-        diskspace.check('/',(err,total,free,status)=>{
+        diskspace.check('/',(err,res)=>{
             if(err)
                 return rj(err)
             rs({
-                total,
-                free,
+                total:res.total,
+                free:res.free,
             })
         })
     })

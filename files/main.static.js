@@ -4,9 +4,9 @@ import { EventEmmiter } from 'https://gitcdn.link/cdn/anliting/simple.js/3b5e122
 var style = `a:active,a:link,a:hover,a:visited{
     color:blue;
 }
-`;
+`
 
-var beRenamed = function(type){
+function beRenamed(type){
     let input=createInput(this);
     this.ui.li.innerHTML='';
     let p=new Promise(rs=>{
@@ -38,7 +38,7 @@ var beRenamed = function(type){
         input.value=file.name;
         return input
     }
-};
+}
 
 function File(name,isDirectory){
     EventEmmiter.call(this);
@@ -131,7 +131,7 @@ function createFile(fileManager,name,isDirectory){
         fileManager.remove(`${fileManager.directory}/${f.name}`);
     return f
 }
-var setupFilelist = async function(){
+async function setupFilelist(){
     let fileManager=this;
     if(fileManager.setupFilelistStatus!=0)
         return fileManager.setupFilelistStatus=2
@@ -172,7 +172,7 @@ var setupFilelist = async function(){
             return li
         }))
     }
-};
+}
 
 var genkeydown = fileManager=>e=>{
     if(e.keyCode==35){ // end
@@ -259,7 +259,7 @@ var genkeydown = fileManager=>e=>{
         };
         return input
     }
-};
+}
 
 function Fileuploading(directory,name,rawfile){
     this.directory=directory;
