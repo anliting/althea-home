@@ -1,4 +1,4 @@
-import { Site, browser, dom, general, path } from '/lib/core.static.js';
+import { dom, path, browser, general, Site } from '/lib/core.static.js';
 import { EventEmmiter } from 'https://gitcdn.link/cdn/anliting/simple.js/3b5e122ded93bb9a5a7d5099ac645f1e1614a89b/src/simple.static.js';
 
 var style = `a:active,a:link,a:hover,a:visited{
@@ -185,7 +185,8 @@ var genkeydown = fileManager=>e=>{
         e.preventDefault();
         if(fileManager.focus==undefined)
             return
-        let f=fileManager.filelist[fileManager.focus];(async()=>{
+        let f=fileManager.filelist[fileManager.focus]
+        ;(async()=>{
             let name=await f.beRenamed('append');
             fileManager._rename(f,name);
         })();
@@ -208,7 +209,8 @@ var genkeydown = fileManager=>e=>{
         e.preventDefault();
         if(fileManager.focus==undefined)
             return
-        let f=fileManager.filelist[fileManager.focus];(async()=>{
+        let f=fileManager.filelist[fileManager.focus]
+        ;(async()=>{
             let name=await f.beRenamed('insert');
             fileManager._rename(f,name);
         })();
@@ -546,16 +548,16 @@ FileManager.prototype.getDirectoryInformation=function(path$$1){
     })
 };
 
-function Ui$4(){
+function Ui$3(){
     this.node=createNode$1(this);
 }
 function createNode$1(ui){
     return dom('div',ui.div=createDiv(ui))
 }
-Ui$4.prototype.appendLeftChild=function(n){
+Ui$3.prototype.appendLeftChild=function(n){
     this.leftDiv.appendChild(n);
 };
-Ui$4.prototype.appendRightChild=function(n){
+Ui$3.prototype.appendRightChild=function(n){
     this.rightDiv.appendChild(n);
 };
 function createDiv(ui){
@@ -646,7 +648,7 @@ Home.prototype.send=async function(a){
     return(await this._site).send(a)
 };
 Object.defineProperty(Home.prototype,'ui',{configurable:true,get(){
-    let ui=new Ui$4;
+    let ui=new Ui$3;
     ui.appendLeftChild(this.fm.ui.node);
     ui.appendRightChild(this.rightFm.ui.node);
     ui.getDiskSpace=()=>this.getDiskSpace();
@@ -657,11 +659,12 @@ Home.prototype.getDiskSpace=function(){
     return this.fm.getDiskSpace()
 };
 
-let directory=path.normalize(
+let
+    directory=path.normalize(
         decodeURIComponent(location.pathname).match(/\/home\/?(.*)/)[1]
-    );
-let home=new Home(new Site,directory);
-let listenToDirectoryChange=true;
+    ),
+    home=new Home(new Site,directory),
+    listenToDirectoryChange=true;
 general();
 changeHistory('replaceState',directory);
 home.fm.on('directoryChange',e=>{

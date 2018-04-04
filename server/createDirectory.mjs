@@ -1,7 +1,11 @@
-let
-    fs=require('fs'),
-    path=require('path')
-module.exports=async(opt,env)=>{
+import fs from 'fs'
+import path from 'path'
+function mkdir(path){
+    return new Promise((rs,rj)=>
+        fs.mkdir(path,err=>err?rj():rs())
+    )
+}
+export default async(opt,env)=>{
     opt instanceof Object&&
     typeof opt.path=='string'||0()
     let pathToTarget=`${env.config.pathToUsersFiles}/home/${opt.path}`
@@ -21,9 +25,4 @@ module.exports=async(opt,env)=>{
         throw e
     })
     return null
-}
-function mkdir(path){
-    return new Promise((rs,rj)=>
-        fs.mkdir(path,err=>err?rj():rs())
-    )
 }

@@ -1,7 +1,6 @@
-let
-    fs=require('mz/fs'),
-    path=require('path')
-module.exports=async(opt,env)=>{
+import fs from 'mz/fs'
+import path from 'path'
+export default async(opt,env)=>{
     opt instanceof Object&&
     typeof opt.path=='string'&&
     env.currentUser.isadmin||0()

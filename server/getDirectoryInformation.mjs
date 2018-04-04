@@ -1,7 +1,6 @@
-let
-    fs=require('fs'),
-    path=require('path')
-module.exports=(opt,env)=>{
+import fs from 'fs'
+import path from 'path'
+export default(opt,env)=>{
     opt instanceof Object&&
     typeof opt.path=='string'||0()
     let currentUser=env.currentUser

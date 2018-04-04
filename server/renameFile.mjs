@@ -1,6 +1,5 @@
-let
-    fs=require('fs')
-module.exports=async(opt,env)=>{
+import fs from 'fs'
+export default async(opt,env)=>{
     opt instanceof Object&&
     typeof opt.path=='string'&&
     typeof opt.newpath=='string'&&

@@ -1,9 +1,4 @@
-let
-    diskspace=require('diskspace')
-module.exports=(args,env)=>{
-    env.currentUser.isadmin||0()
-    return diskSpace()
-}
+import diskspace from 'diskspace'
 function diskSpace(){
     return new Promise((rs,rj)=>{
         diskspace.check('/',(err,res)=>{
@@ -15,4 +10,8 @@ function diskSpace(){
             })
         })
     })
+}
+export default(args,env)=>{
+    env.currentUser.isadmin||0()
+    return diskSpace()
 }
