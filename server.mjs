@@ -1,4 +1,4 @@
-import fs from 'mz/fs'
+import fsPromises from 'fs/promises'
 import createDirectory from './server/createDirectory'
 import getDiskSpace from './server/getDiskSpace'
 import renameFile from './server/renameFile'
@@ -51,7 +51,7 @@ export default althea=>{
             await isDirectory(`usersFiles${decodeURI(pathname)}`)
         async function isDirectory(path){
             try{
-                return(await fs.stat(path)).isDirectory()
+                return(await fsPromises.stat(path)).isDirectory()
             }catch(e){
                 return false
             }
