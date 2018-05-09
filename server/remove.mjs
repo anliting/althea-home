@@ -1,4 +1,4 @@
-import fsPromises from 'fs/promises'
+import fs from 'fs'
 import path from 'path'
 export default async(opt,env)=>{
     opt instanceof Object&&
@@ -9,11 +9,11 @@ export default async(opt,env)=>{
         `${env.config.pathToUsersFiles}/home`,pathToTarget
     )).substring(0,2)!='..'||0()
     try{
-        let stat=await fsPromises.lstat(pathToTarget)
+        let stat=await fs.promises.lstat(pathToTarget)
         stat.isFile()?
-            fsPromises.unlink(pathToTarget)
+            fs.promises.unlink(pathToTarget)
         :stat.isDirectory&&
-            fsPromises.rmdir(pathToTarget).catch(err=>{
+            fs.promises.rmdir(pathToTarget).catch(err=>{
                 if(err.code=='ENOTEMPTY')
                     return
                 throw err
