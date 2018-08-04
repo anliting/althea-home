@@ -1,4 +1,4 @@
-import{dom}from '/lib/core.static.js'
+import{doe}from '/lib/core.static.js'
 export default function(type){
     let input=createInput(this)
     this.ui.li.innerHTML=''
@@ -27,7 +27,7 @@ export default function(type){
         )
     return p
     function createInput(file){
-        let input=dom('input')
+        let input=doe.input()
         input.value=file.name
         return input
     }

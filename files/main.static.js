@@ -1,4 +1,4 @@
-import { dom, path, browser, general, Site } from '/lib/core.static.js';
+import { doe, path, browser, dom, general, Site } from '/lib/core.static.js';
 import { EventEmmiter } from 'https://gitcdn.link/cdn/anliting/simple.js/3b5e122ded93bb9a5a7d5099ac645f1e1614a89b/src/simple.static.js';
 
 var style = `a:active,a:link,a:hover,a:visited{
@@ -34,7 +34,7 @@ function beRenamed(type){
         );
     return p
     function createInput(file){
-        let input=dom('input');
+        let input=doe.input();
         input.value=file.name;
         return input
     }
@@ -59,11 +59,11 @@ function Ui(file){
     this.li=createLi(file);
 }
 function createLi(file){
-    let li=dom('li',createA(file),()=>{
+    let li=doe.li(createA(file),n=>{
         if(getExtension(file.name)=='mp3'){
             let a=createAAudio(file);
             a.ondblclick=e=>e.stopPropagation();
-            return['',a]
+            doe(n,'',a);
         }
     });
     li.onclick=()=>file.emit('click');
@@ -71,7 +71,7 @@ function createLi(file){
     return li
 }
 function createA(file){
-    let a=dom('a',file.name+(file.isDirectory?'/':''));
+    let a=doe.a(file.name+(file.isDirectory?'/':''));
     a.href=file.href;
     a.onclick=e=>{
         e.stopPropagation();
@@ -85,7 +85,7 @@ function createA(file){
 function createAAudio(file){
     let
         state=0,
-        a=dom('a','(play)');
+        a=doe.a('(play)');
     a.href='javascript:';
     a.onclick=e=>{
         e.stopPropagation();
@@ -166,11 +166,9 @@ async function setupFilelist(){
         fileManager.setupFilelist();
     }
     function createUl(fileManager,a){
-        return dom('ul',a.map((file,index)=>{
-            let li=file.ui.li;
-            li.onclick=()=>fileManager.focusOn(index);
-            return li
-        }))
+        return doe.ul(...a.map((file,index)=>
+            doe(file.ui.li,{onclick(){fileManager.focusOn(index);}})
+        ))
     }
 }
 
@@ -238,10 +236,10 @@ var genkeydown = fileManager=>e=>{
         li.firstChild.select();
     }
     function createLi(){
-        return dom('li',createInput())
+        return doe.li(createInput())
     }
     function createInput(){
-        let input=dom('input');
+        let input=doe.input();
         input.style.width='-webkit-fill-available';
         input.onkeydown=e=>{
             e.stopPropagation();
@@ -321,25 +319,27 @@ Fileuploading.prototype.setupLi=function(){
     let fileuploading=this;
     this.li=createLi();
     function createLi(){
-        let li=dom('li',createDiv(),createSpan());
+        let li=doe.li(createDiv(),createSpan());
         li.style.position='relative';
         li.style.border='1px solid black';
         return li
     }
     function createSpan(){
-        fileuploading.span=dom('span',fileuploading.name);
+        fileuploading.span=doe.span(fileuploading.name);
         fileuploading.span.style.position='absolute';
         fileuploading.span.style.top='0px';
         return fileuploading.span
     }
     function createDiv(){
-        fileuploading.div=dom('div');
-        fileuploading.div.style.position='absolute';
-        fileuploading.div.style.top='0px';
-        fileuploading.div.style.height='100%';
-        fileuploading.div.style.width='0%';
-        fileuploading.div.style.backgroundColor='lightgreen';
-        return fileuploading.div
+        return fileuploading.div=doe.div(n=>{
+            doe(n.style,{
+                position:'absolute',
+                top:'0px',
+                height:'100%',
+                width:'0%',
+                backgroundColor:'lightgreen',
+            });
+        })
     }
 };
 Fileuploading.prototype.send=function(){
@@ -376,7 +376,7 @@ Fileuploading.prototype.send=function(){
 function AudioPlayer(){
 }
 AudioPlayer.prototype.start=function(src){
-    this.audio=dom('audio',{src,autoplay:true});
+    this.audio=doe.audio({src,autoplay:true});
 };
 AudioPlayer.prototype.end=function(){
     this.audio.parentNode.removeChild(
@@ -402,7 +402,7 @@ Ui$2.prototype._sendFiles=function(c){
         this.sendFile(c[i]);
 };
 function createNode(ui){
-    let n=dom('div');
+    let n=doe.div();
     n.tabIndex=0;
     n.style.outline='none';
     n.style.position='relative';
@@ -445,7 +445,7 @@ function createNode(ui){
     }
 }
 function createDropDiv(){
-    let n=dom('div');
+    let n=doe.div();
     n.style.position='absolute';
     n.style.top='0';
     n.style.width='100%';
@@ -552,7 +552,7 @@ function Ui$3(){
     this.node=createNode$1(this);
 }
 function createNode$1(ui){
-    return dom('div',ui.div=createDiv(ui))
+    return doe.div(ui.div=createDiv(ui))
 }
 Ui$3.prototype.appendLeftChild=function(n){
     this.leftDiv.appendChild(n);
@@ -561,19 +561,19 @@ Ui$3.prototype.appendRightChild=function(n){
     this.rightDiv.appendChild(n);
 };
 function createDiv(ui){
-    let div=dom('div');
+    let div=doe.div();
     div.style.display='table';
     div.style.tableLayout='fixed';
     div.style.width='100%';
-    ui.rowDiv=dom('div',n=>{
+    ui.rowDiv=doe.div(n=>{
         n.style.display='table-row';
-        ui.leftDiv=dom('div');
+        ui.leftDiv=doe.div();
         ui.leftDiv.style.display='table-cell';
         ui.leftDiv.style.width='50%';
-        ui.rightDiv=dom('div');
+        ui.rightDiv=doe.div();
         ui.rightDiv.style.display='none';
         ui.rightDiv.style.width='50%';
-        return[ui.leftDiv,ui.rightDiv]
+        doe(n,ui.leftDiv,ui.rightDiv);
     });
     div.appendChild(ui.rowDiv);
     div.onkeydown=e=>{
@@ -595,7 +595,7 @@ function createTc(ui){
     ui.getDiskSpace().then(disk=>{
         if(ended)
             return
-        p=dom('p',`${~~(disk.free/1e9)}G/${~~(disk.total/1e9)}G`);
+        p=doe.p(`${~~(disk.free/1e9)}G/${~~(disk.total/1e9)}G`);
         ui.node.insertBefore(p,ui.div);
     });
     return{
@@ -682,7 +682,7 @@ onpopstate=e=>{
     home.fm.directory=e.state.directory;
     listenToDirectoryChange=true;
 };
-dom.head(dom.style(style));
+doe.head(doe.style(style));
 document.body.appendChild(home.ui);
 home.focus();
 function changeHistory(method,directory){

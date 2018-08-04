@@ -1,6 +1,6 @@
 import style from './main/style.js'
 import Home from'./Home.js'
-import {dom,general,path,Site} from '/lib/core.static.js'
+import {doe,general,path,Site} from '/lib/core.static.js'
 let
     directory=path.normalize(
         decodeURIComponent(location.pathname).match(/\/home\/?(.*)/)[1]
@@ -24,7 +24,7 @@ onpopstate=e=>{
     home.fm.directory=e.state.directory
     listenToDirectoryChange=true
 }
-dom.head(dom.style(style))
+doe.head(doe.style(style))
 document.body.appendChild(home.ui)
 home.focus()
 function changeHistory(method,directory){

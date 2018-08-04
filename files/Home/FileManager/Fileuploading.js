@@ -1,4 +1,4 @@
-import{dom}from '/lib/core.static.js'
+import{doe}from '/lib/core.static.js'
 function Fileuploading(directory,name,rawfile){
     this.directory=directory
     this.name=name
@@ -57,25 +57,27 @@ Fileuploading.prototype.setupLi=function(){
     let fileuploading=this
     this.li=createLi()
     function createLi(){
-        let li=dom('li',createDiv(),createSpan())
+        let li=doe.li(createDiv(),createSpan())
         li.style.position='relative'
         li.style.border='1px solid black'
         return li
     }
     function createSpan(){
-        fileuploading.span=dom('span',fileuploading.name)
+        fileuploading.span=doe.span(fileuploading.name)
         fileuploading.span.style.position='absolute'
         fileuploading.span.style.top='0px'
         return fileuploading.span
     }
     function createDiv(){
-        fileuploading.div=dom('div')
-        fileuploading.div.style.position='absolute'
-        fileuploading.div.style.top='0px'
-        fileuploading.div.style.height='100%'
-        fileuploading.div.style.width='0%'
-        fileuploading.div.style.backgroundColor='lightgreen'
-        return fileuploading.div
+        return fileuploading.div=doe.div(n=>{
+            doe(n.style,{
+                position:'absolute',
+                top:'0px',
+                height:'100%',
+                width:'0%',
+                backgroundColor:'lightgreen',
+            })
+        })
     }
 }
 Fileuploading.prototype.send=function(){

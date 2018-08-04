@@ -1,4 +1,4 @@
-import{dom}from '/lib/core.static.js'
+import{doe}from '/lib/core.static.js'
 import{EventEmmiter}from 'https://gitcdn.link/cdn/anliting/simple.js/3b5e122ded93bb9a5a7d5099ac645f1e1614a89b/src/simple.static.js'
 import beRenamed from './File/prototype.beRenamed.js'
 function File(name,isDirectory){
@@ -20,11 +20,11 @@ function Ui(file){
     this.li=createLi(file)
 }
 function createLi(file){
-    let li=dom('li',createA(file),()=>{
+    let li=doe.li(createA(file),n=>{
         if(getExtension(file.name)=='mp3'){
             let a=createAAudio(file)
             a.ondblclick=e=>e.stopPropagation()
-            return['',a]
+            doe(n,'',a)
         }
     })
     li.onclick=()=>file.emit('click')
@@ -32,7 +32,7 @@ function createLi(file){
     return li
 }
 function createA(file){
-    let a=dom('a',file.name+(file.isDirectory?'/':''))
+    let a=doe.a(file.name+(file.isDirectory?'/':''))
     a.href=file.href
     a.onclick=e=>{
         e.stopPropagation()
@@ -46,7 +46,7 @@ function createA(file){
 function createAAudio(file){
     let
         state=0,
-        a=dom('a','(play)')
+        a=doe.a('(play)')
     a.href='javascript:'
     a.onclick=e=>{
         e.stopPropagation()

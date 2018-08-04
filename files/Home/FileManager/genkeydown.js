@@ -1,4 +1,4 @@
-import{dom}from '/lib/core.static.js'
+import{doe}from '/lib/core.static.js'
 export default fileManager=>e=>{
     if(e.keyCode==35){ // end
         e.preventDefault()
@@ -63,10 +63,10 @@ export default fileManager=>e=>{
         li.firstChild.select()
     }
     function createLi(){
-        return dom('li',createInput())
+        return doe.li(createInput())
     }
     function createInput(){
-        let input=dom('input')
+        let input=doe.input()
         input.style.width='-webkit-fill-available'
         input.onkeydown=e=>{
             e.stopPropagation()

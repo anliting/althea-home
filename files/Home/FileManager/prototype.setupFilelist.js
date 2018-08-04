@@ -1,4 +1,4 @@
-import{dom,path}from '/lib/core.static.js'
+import{doe,path}from '/lib/core.static.js'
 import File from './prototype.setupFilelist/File.js'
 function createFile(fileManager,name,isDirectory){
     let f=new File(name,isDirectory)
@@ -60,10 +60,8 @@ export default async function(){
         fileManager.setupFilelist()
     }
     function createUl(fileManager,a){
-        return dom('ul',a.map((file,index)=>{
-            let li=file.ui.li
-            li.onclick=()=>fileManager.focusOn(index)
-            return li
-        }))
+        return doe.ul(...a.map((file,index)=>
+            doe(file.ui.li,{onclick(){fileManager.focusOn(index)}})
+        ))
     }
 }

@@ -1,4 +1,4 @@
-import{browser,dom}from '/lib/core.static.js'
+import{browser,doe,dom}from '/lib/core.static.js'
 function Ui(){
     this.node=createNode(this)
 }
@@ -16,7 +16,7 @@ Ui.prototype._sendFiles=function(c){
         this.sendFile(c[i])
 }
 function createNode(ui){
-    let n=dom('div')
+    let n=doe.div()
     n.tabIndex=0
     n.style.outline='none'
     n.style.position='relative'
@@ -59,7 +59,7 @@ function createNode(ui){
     }
 }
 function createDropDiv(){
-    let n=dom('div')
+    let n=doe.div()
     n.style.position='absolute'
     n.style.top='0'
     n.style.width='100%'
