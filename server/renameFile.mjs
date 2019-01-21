@@ -6,8 +6,8 @@ export default async(opt,env)=>{
     env.currentUser.isadmin||0()
     await new Promise((rs,rj)=>{
         fs.rename(
-            `${env.config.pathToUsersFiles}/home/`+opt.path,
-            `${env.config.pathToUsersFiles}/home/`+opt.newpath,
+            `${env.althea._dataDir}/${env.config.pathToUsersFiles}/home/`+opt.path,
+            `${env.althea._dataDir}/${env.config.pathToUsersFiles}/home/`+opt.newpath,
             err=>err?rj(err):rs()
         )
     })

@@ -4,9 +4,9 @@ export default async(opt,env)=>{
     opt instanceof Object&&
     typeof opt.path=='string'&&
     env.currentUser.isadmin||0()
-    let pathToTarget=env.config.pathToUsersFiles+'/home/'+opt.path
+    let pathToTarget=`${env.althea._dataDir}/${env.config.pathToUsersFiles}/home/${opt.path}`
     path.normalize(path.relative(
-        `${env.config.pathToUsersFiles}/home`,pathToTarget
+        `${env.althea._dataDir}/${env.config.pathToUsersFiles}/home`,pathToTarget
     )).substring(0,2)!='..'||0()
     try{
         let stat=await fs.promises.lstat(pathToTarget)
