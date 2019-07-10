@@ -1,9 +1,9 @@
 import fs from 'fs'
-import createDirectory from './server/createDirectory'
-import getDiskSpace from './server/getDiskSpace'
-import renameFile from './server/renameFile'
-import getDirectoryInformation from './server/getDirectoryInformation'
-import remove from './server/remove'
+import createDirectory from './server/createDirectory.mjs'
+import getDiskSpace from './server/getDiskSpace.mjs'
+import renameFile from './server/renameFile.mjs'
+import getDirectoryInformation from './server/getDirectoryInformation.mjs'
+import remove from './server/remove.mjs'
 function pagemodule(env){
     if(!env.althea.allowOrigin(env.envVars,env.request.headers.origin))
         return 403
