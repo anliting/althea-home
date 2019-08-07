@@ -48,7 +48,7 @@ export default althea=>{
     althea.addPagemodule(async env=>{
         let pathname=env.analyze.request.parsedUrl.pathname
         return /\/home/.test(pathname)&&
-            await isDirectory(`${env.althea._dataDir}/usersFiles${decodeURI(pathname)}`)
+            await isDirectory(`usersFiles${decodeURI(pathname)}`)
         async function isDirectory(path){
             try{
                 return(await fs.promises.stat(path)).isDirectory()

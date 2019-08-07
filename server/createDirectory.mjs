@@ -8,11 +8,11 @@ function mkdir(path){
 export default async(opt,env)=>{
     opt instanceof Object&&
     typeof opt.path=='string'||0()
-    let pathToTarget=`${env.althea._dataDir}/${env.config.pathToUsersFiles}/home/${opt.path}`
+    let pathToTarget=`${env.config.pathToUsersFiles}/home/${opt.path}`
     env.currentUser.isadmin&&
     path.normalize(
         path.relative(
-            `${env.althea._dataDir}/${env.config.pathToUsersFiles}/home`,
+            `${env.config.pathToUsersFiles}/home`,
             pathToTarget
         )
     ).substring(0,2)!='..'||0()
