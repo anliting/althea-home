@@ -36,7 +36,7 @@ ${env.althea.loadModule(
         `
     }
 }
-export default althea=>{
+function Plugin(althea){
     althea.addQueryFunction('createDirectory',createDirectory)
     althea.addQueryFunction('getDiskSpace',getDiskSpace)
     althea.addQueryFunction('renameFile',renameFile)
@@ -58,3 +58,8 @@ export default althea=>{
         }
     },pagemodule)
 }
+Plugin.prototype.end=function(){
+}
+Plugin.prototype.shutdownEnd=function(){
+}
+export default Plugin
