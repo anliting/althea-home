@@ -1,18 +1,18 @@
 import{path}from '/lib/core.static.js'
-import{EventEmmiter}from 'https://gitcdn.link/cdn/anliting/simple.js/3b5e122ded93bb9a5a7d5099ac645f1e1614a89b/src/simple.static.js'
+import EventEmitter from'../lib/EventEmitter.mjs'
 import setupFilelist from './FileManager/prototype.setupFilelist.js'
 import genkeydown from './FileManager/genkeydown.js'
 import Fileuploading from './FileManager/Fileuploading.js'
 import AudioPlayer from './FileManager/AudioPlayer.js'
 import Ui from './FileManager/Ui.js'
 function FileManager(){
-    EventEmmiter.call(this)
+    EventEmitter.call(this)
     this.pendingRequest=[]
     this.audioPlayer=new AudioPlayer
     this.fileuploadings=[]
     this.setupFilelistStatus=0
 }
-Object.setPrototypeOf(FileManager.prototype,EventEmmiter.prototype)
+Object.setPrototypeOf(FileManager.prototype,EventEmitter.prototype)
 Object.defineProperty(FileManager.prototype,'directory',{set(pth){
     let targetPath=path.normalize(pth)
     if(targetPath.substring(0,2)=='..')

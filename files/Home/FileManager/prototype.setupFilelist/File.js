@@ -1,12 +1,12 @@
 import{doe}from '/lib/core.static.js'
-import{EventEmmiter}from 'https://gitcdn.link/cdn/anliting/simple.js/3b5e122ded93bb9a5a7d5099ac645f1e1614a89b/src/simple.static.js'
+import EventEmitter from'../../../lib/EventEmitter.mjs'
 import beRenamed from './File/prototype.beRenamed.js'
 function File(name,isDirectory){
-    EventEmmiter.call(this)
+    EventEmitter.call(this)
     this.name=name
     this.isDirectory=isDirectory
 }
-Object.setPrototypeOf(File.prototype,EventEmmiter.prototype)
+Object.setPrototypeOf(File.prototype,EventEmitter.prototype)
 File.prototype.execute=function(){
     this.emit('execute')
 }

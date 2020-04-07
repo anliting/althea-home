@@ -1,10 +1,42 @@
-import { doe, path, browser, dom, general, Site } from '/lib/core.static.js';
-import { EventEmmiter } from 'https://gitcdn.link/cdn/anliting/simple.js/3b5e122ded93bb9a5a7d5099ac645f1e1614a89b/src/simple.static.js';
+import { doe, path, browser, dom, Site, general } from '/lib/core.static.js';
 
 var style = `a:active,a:link,a:hover,a:visited{
     color:blue;
 }
-`
+`;
+
+function EventEmmiter(){
+    this._listeners={};
+}
+EventEmmiter.prototype._keyExist=function(key){
+    return key in this._listeners
+};
+EventEmmiter.prototype._ensureKeyExist=function(key){
+    if(!(key in this._listeners))
+        this._listeners[key]=new Map;
+};
+EventEmmiter.prototype.emit=function(key,event){
+    if(!this._keyExist(key))
+        return
+    for(let[listener,doc]of [...this._listeners[key].entries()]){
+        if(doc.once)
+            this.off(key,listener);
+        listener(event);
+    }
+};
+EventEmmiter.prototype.off=function(key,listener){
+    if(!this._keyExist(key))
+        return
+    this._listeners[key].delete(listener);
+};
+EventEmmiter.prototype.on=function(key,listener){
+    this._ensureKeyExist(key);
+    this._listeners[key].set(listener,{once:false});
+};
+EventEmmiter.prototype.once=function(key,listener){
+    this._ensureKeyExist(key);
+    this._listeners[key].set(listener,{once:true});
+};
 
 function beRenamed(type){
     let input=createInput(this);
@@ -259,7 +291,7 @@ var genkeydown = fileManager=>e=>{
         };
         return input
     }
-}
+};
 
 function Fileuploading(directory,name,rawfile){
     this.directory=directory;
@@ -541,10 +573,10 @@ FileManager.prototype.getDiskSpace=function(){
         function:'getDiskSpace',
     })
 };
-FileManager.prototype.getDirectoryInformation=function(path$$1){
+FileManager.prototype.getDirectoryInformation=function(path){
     return this.send({
         function:'getDirectoryInformation',
-        path: path$$1
+        path
     })
 };
 
@@ -582,7 +614,7 @@ function createDiv(ui){
         e.preventDefault();
         if(ui.tc==undefined){
             ui.tc=createTc(ui);
-        }else{
+        }else {
             ui.tc.end();
             delete ui.tc;
         }
@@ -598,7 +630,7 @@ function createTc(ui){
         p=doe.p(`${~~(disk.free/1e9)}G/${~~(disk.total/1e9)}G`);
         ui.node.insertBefore(p,ui.div);
     });
-    return{
+    return {
         end(){
             ui.rightDiv.style.display='none';
             if(p)
@@ -631,11 +663,11 @@ function createFM(home,directory){
             path:`${fm.directory}/${name}`,
         })
     };
-    fm.remove=async path$$1=>{
+    fm.remove=async path=>{
         let site=await home._site;
         return site.send({
             function:'remove',
-            path: path$$1,
+            path,
         })
     };
     fm.send=a=>home.send(a);
@@ -645,7 +677,7 @@ Home.prototype.focus=function(){
     this.fm.beFocused();
 };
 Home.prototype.send=async function(a){
-    return(await this._site).send(a)
+    return (await this._site).send(a)
 };
 Object.defineProperty(Home.prototype,'ui',{configurable:true,get(){
     let ui=new Ui$3;
